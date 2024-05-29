@@ -1,26 +1,49 @@
 package com.hamitmizrak;
 
 public class _12_1_Method {
+
+    // 1-) voidliParametresiz
+    public void voidliParametresiz(){
+        System.out.println("voidli Parametresiz");
+    }
+
+    // 2-) voidliParametreli
+    public void voidliParametreli(String name){
+        System.out.println("voidli Parametreli "+name);
+    }
+
+    // 3-) returnluParametresiz
+    public String returnluParametresiz(){
+        return "returnlu Parametresiz";
+    }
+
+    // 4-) returnluParametreli
+    public String returnluParametreli(String name,String surname){
+        return "returnlu Parametreli "+name+" "+surname;
+    }
+
+    // Overloading
+    public String returnluParametreli(String name){
+        return "returnlu Parametreli "+name;
+    }
+
+
     public static void main(String[] args) {
+        // instance
+        _12_1_Method obj = new _12_1_Method();
+        obj.voidliParametresiz();
+        obj.voidliParametreli(" ismim");
 
-        System.out.println("*** For ********************");
-        for (int i = 1; i <= 10; i++) {// i++  i=i+1  i+=1
-            System.out.print(i + " ");
-        }
+        String data1= obj.returnluParametresiz();
+        System.out.println(data1);
 
-        System.out.println("\n*** While ********************");
-        int k = 1;
-        while (k <= 10) {
-            System.out.print(k + " ");
-            k++;
-        }
+        String data2= obj.returnluParametreli("isim","soyisim");
+        System.out.println(data2);
 
-        System.out.println("\n*** do-while ********************");
-        int x = 1;
-        do {
-            System.out.print(x + " ");
-            x++;
-        } while (x <= 10);
+        String data3= obj.returnluParametreli("isim");
+        System.out.println(data3);
 
+        // static
+        // final
     }
 }
