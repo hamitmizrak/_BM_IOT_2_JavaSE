@@ -12,7 +12,7 @@ Bu sayılardan tek olanların toplamı buluyorsunuz ?
 */
 public class _11_2_For {
     public static void main(String[] args) {
-        int sum = 0; // Toplamada etkisiz eleman: 0
+        int sum = 0,evenSum=0,oddSum=0; // Toplamada etkisiz eleman: 0
         Scanner sc = new Scanner(System.in);
         System.out.println("lütfen pozitif bir sayı giriniz");
         int number = Math.abs(sc.nextInt());
@@ -23,10 +23,16 @@ public class _11_2_For {
             }
             if(i>8)
                 break;
+            if(i%2==0){// Çift
+                //evenSum=+evenSum+i;
+                evenSum+=i;
+            }else{
+                oddSum+=i;
+            }
             sum=sum+i;
         }
         System.out.println("Toplam Değer: "+sum);
-        System.out.println("Çift Toplam Değer: ");
-        System.out.println("Tek Toplam Değer: ");
+        System.out.println("Çift Toplam Değer: "+evenSum);
+        System.out.println("Tek Toplam Değer: "+oddSum);
     }
 }
