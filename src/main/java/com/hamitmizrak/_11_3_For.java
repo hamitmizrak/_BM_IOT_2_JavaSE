@@ -16,6 +16,21 @@ public class _11_3_For {
             System.out.print(randomNum+" ");
             sum=sum+randomNum;
         }
-        System.out.println("\nToplam:" +sum);
+        //System.out.println("\nToplam:" +sum);
+
+        System.out.println("\n*******************");
+        // Formatter
+        String str="Java öğreniyorum";
+        int number=44;
+        float floatingPoint=23.45f;
+        System.out.printf("%s %d %f",str,number,floatingPoint);
+        System.out.println("\n");
+        System.out.printf("%30s %d %f",str,number,floatingPoint);
+        System.out.println("\n");
+        System.out.printf("%30s %30d %f",str,number,floatingPoint);
+        System.out.println("\n");
+        System.out.printf("%30s %30d %2.3f",str,number,floatingPoint);
+        System.out.println("\n");
+        System.out.printf("%-10s %30d %2.3f",str,number,floatingPoint);
     }
 }
