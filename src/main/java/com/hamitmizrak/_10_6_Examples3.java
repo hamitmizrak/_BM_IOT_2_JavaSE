@@ -8,7 +8,7 @@ sayı mı ?
 Harf mi ?
 yoksa özel ifade mi
 */
-public class _10_6_Examples3 {
+public class    _10_6_Examples3 {
     public static void main(String[] args) {
         Scanner klavye = new Scanner(System.in);
         while (true) {
