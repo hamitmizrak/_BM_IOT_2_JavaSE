@@ -4,14 +4,11 @@ public enum _13_1_Enum {
     PAZARTESI,SALI,CARSAMBA,PERSEMBE,CUMA,CUMARTESI,PAZAR
 }
 
-
 // Enumda: Herkes için tek bir anlama gelecek
 // Type safe
 // Haftada :7 gün
 // Yıl: 12 ay
 // small, medium, large
-
-
 
 class EnumClassData{
     public static void main(String[] args) {
