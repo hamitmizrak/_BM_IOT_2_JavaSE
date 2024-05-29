@@ -22,6 +22,5 @@ public class _11_1_For {
             x++;
         } while (x <= 10);
 
-
     }
 }
