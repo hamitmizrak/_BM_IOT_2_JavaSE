@@ -31,6 +31,39 @@ public class _11_3_For {
         System.out.println("\n");
         System.out.printf("%30s %30d %2.3f",str,number,floatingPoint);
         System.out.println("\n");
-        System.out.printf("%-10s %30d %2.3f",str,number,floatingPoint);
+        System.out.printf("%-10s %-10d %2.3f",str,number,floatingPoint);
     }
 }
+
+// Enumda: Herkes için tek bir anlama gelecek
+// Type safe
+// Haftada :7 gün
+// Yıl: 12 ay
+// small, medium, large
+
+enum Days{
+    PAZARTESI,SALI,CARSAMBA,PERSEMBE,CUMA,CUMARTESI,PAZAR
+}
+
+class EnumClassData{
+    public static void main(String[] args) {
+        Days days=Days.PERSEMBE;
+        System.out.println(days);
+
+        // String
+        System.out.println(days.toString().toLowerCase());
+        String data=days.toString().toLowerCase();
+        System.out.println(data);
+
+
+        System.out.println("Sıra No:"+days.PAZARTESI.ordinal());
+        System.out.println("Value No:"+days.PAZARTESI.values()[0]);
+        System.out.println("İlk değer:"+days.values()[0]);
+
+    }
+}
+
+
+
+
+
