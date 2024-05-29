@@ -27,6 +27,8 @@ public class _12_1_Method {
         return "returnlu Parametreli "+name;
     }
 
+    // Override
+
 
     public static void main(String[] args) {
         // instance
