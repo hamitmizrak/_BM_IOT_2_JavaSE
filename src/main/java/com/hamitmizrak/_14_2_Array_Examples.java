@@ -18,13 +18,32 @@ public class _14_2_Array_Examples {
             System.out.print(randomNum+" ");
             sum=sum+randomNum;
         }
-        System.out.println("\nToplam:" +sum);
+        System.out.println("\nIterarive Toplam:" +sum);
+    }
+
+    // Dizide Sum
+    public static void arrayRandomSum(){
+        int sum=0;
+        int[] array=new int[8];
+
+        // Loop
+        for (int i = 0; i < 8 ; i++) {
+            Random rand = new Random();
+            int randomNum = rand.nextInt(4)+1;
+            array[i]=randomNum;
+            sum=sum+array[i];
+        }
+
+        for(int i=0;i<array.length;i++){
+            System.out.print(array[i]+" ");
+        }
+
+        System.out.println("\nArray Toplam:" +sum);
     }
 
 
-    // Dizide Sum
-
         public static void main(String[] args) {
             iterativeRandomSum();
+            arrayRandomSum();
     }
 }
