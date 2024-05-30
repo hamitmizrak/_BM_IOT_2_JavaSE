@@ -38,12 +38,15 @@ public class _14_2_Array_Examples {
             System.out.print(array[i]+" ");
         }
 
-        System.out.println("\nArray Toplam:" +sum);
+        System.out.println("\nİlk Eleman :" +array[0]);
+        System.out.println("Son Eleman :" +array[7]);
+        System.out.println("Son Eleman :" +array[array.length-1]);
+        System.out.println("Array Toplam:" +sum);
     }
 
 
         public static void main(String[] args) {
-            iterativeRandomSum();
+            //iterativeRandomSum();
             arrayRandomSum();
     }
 }
