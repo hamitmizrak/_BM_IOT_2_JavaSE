@@ -7,7 +7,7 @@ import java.util.Arrays;
 Array sıfırdan başlar saymaya
 Array eleman sayısını başlangıçta göstermeliyiz.
 */
-public class _14_Array {
+public class _14_1_Array {
 
     // Tek boyutlu diziler
     public static void arrayMethod(){
@@ -58,7 +58,7 @@ public class _14_Array {
         matrix[2][1]=8;
         matrix[2][2]=9;
 
-        for(int i=0;i<matrix.length;i++){ //satır
+        for(int i=0; i<matrix.length; i++){ //satır
             for(int j=0;j<matrix[i].length;j++){ //sutun
                 System.out.print(matrix[i][j]+" ");
             }
