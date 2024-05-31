@@ -17,7 +17,7 @@ public class GenericsTutorials<T> {
 
     }
 
-    // parametrli Constructor (Generics)
+    // parametreli Constructor (Generics)
     public GenericsTutorials(T data) {
         this.data = data;
     }
