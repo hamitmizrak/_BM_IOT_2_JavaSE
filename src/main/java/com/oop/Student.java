@@ -10,12 +10,17 @@ private: Cimri
 Encapsulation: private
 */
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Objects;
 
 // POJO: Plain Old Java Object: variable+Getter_and_setter
 // BEAN: POJO+Constructor
 // @Override
-public class Student {
+public class Student implements Serializable {
+
+    // Serileştirme
+    public final static Long serialVersionUID = 1L;
 
     // Variable
     private String name;

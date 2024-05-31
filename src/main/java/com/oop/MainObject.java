@@ -20,5 +20,11 @@ public class MainObject {
         Student student3= new Student("name2","surname2","address2");
         student3.fullName();
         System.out.println(student3);
+
+        System.out.println("*********************");
+        // parametreli Student Instance
+        Teacher teacher= new Teacher("Teachername1","Teachersurname1","Teacheraddress1");
+        teacher.fullName();
+        System.out.println(teacher);
     }
 }
