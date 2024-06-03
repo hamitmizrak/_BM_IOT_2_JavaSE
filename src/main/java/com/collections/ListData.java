@@ -7,7 +7,7 @@ import java.util.Vector;
 
 public class ListData {
 
-    // ArrayListData
+    // arrayListData
     public static void arrayListData(){
         //List<Integer> list = new ArrayList<Integer>();
         List<Integer> arrayList = new ArrayList<>();
@@ -15,10 +15,6 @@ public class ListData {
         arrayList.add(1);
         arrayList.add(7);
         arrayList.add(3);
-        arrayList.add(6);
-        arrayList.add(2);
-        arrayList.add(9);
-        arrayList.add(6);
         // 5 1 7 3 6 2 9 6
         System.out.println("Eleman Sayısı: "+arrayList.size());
         System.out.println("İlk Eleman: "+arrayList.get(0));
@@ -58,7 +54,7 @@ public class ListData {
 
     }
 
-    // ArrayListData
+    // linkedListData
     public static void linkedListData(){
         //List<Integer> list = new ArrayList<Integer>();
         List<Integer> linkedList = new LinkedList<>();
@@ -109,6 +105,7 @@ public class ListData {
 
     }
 
+    // vectorListData
     public static void vectorListData(){
         // Defaultta 10 elemana sahiptir ancak eleman sayısı 9 olursa
         // kendisi otomatik olarak eleman sayısı 20 yapar.
@@ -161,6 +158,7 @@ public class ListData {
     }
 
 
+    // PSVM
     public static void main(String[] args) {
         System.out.println("**********ArrayList**********");
         arrayListData();
