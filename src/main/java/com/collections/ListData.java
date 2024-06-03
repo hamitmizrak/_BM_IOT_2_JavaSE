@@ -24,14 +24,14 @@ public class ListData {
         // list.clear();
         // System.out.println("İlk Eleman: "+list.get(0));
 
-        // Arama
+        // Arama (SOLDAN)
         if (arrayList.indexOf(6) > 0) {
             System.out.println("6 vardır ve soldan indis numarası " + arrayList.indexOf(6));
         } else {
             System.out.println("Yoktur");
         }
 
-        // Arama
+        // Arama (SAĞDAN)
         if (arrayList.lastIndexOf(6) > 0) {
             System.out.println("6 vardır ve sağdan indis numarası " + arrayList.lastIndexOf(6));
         } else {
@@ -75,14 +75,14 @@ public class ListData {
         // list.clear();
         // System.out.println("İlk Eleman: "+list.get(0));
 
-        // Arama
+        // Arama  (SOLDAN)
         if (linkedList.indexOf(6) > 0) {
             System.out.println("6 vardır ve soldan indis numarası " + linkedList.indexOf(6));
         } else {
             System.out.println("Yoktur");
         }
 
-        // Arama
+        // Arama  (SAĞDAN)
         if (linkedList.lastIndexOf(6) > 0) {
             System.out.println("6 vardır ve sağdan indis numarası " + linkedList.lastIndexOf(6));
         } else {
@@ -127,14 +127,14 @@ public class ListData {
         // list.clear();
         // System.out.println("İlk Eleman: "+list.get(0));
 
-        // Arama
+        // Arama  (SOLDAN)
         if (vectorList.indexOf(6) > 0) {
             System.out.println("6 vardır ve soldan indis numarası " + vectorList.indexOf(6));
         } else {
             System.out.println("Yoktur");
         }
 
-        // Arama
+        // Arama  (SAĞDAN)
         if (vectorList.lastIndexOf(6) > 0) {
             System.out.println("6 vardır ve sağdan indis numarası " + vectorList.lastIndexOf(6));
         } else {
