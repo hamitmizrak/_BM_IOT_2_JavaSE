@@ -2,6 +2,10 @@ package com.collections;
 
 import java.util.*;
 
+// L A V
+// LinkedList
+// ArrayList
+// Vector
 public class ListData {
 
     // arrayListData
