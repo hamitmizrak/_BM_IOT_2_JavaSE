@@ -130,8 +130,8 @@ public class SetData {
 
 
     // Random List
-    public static List<Integer> loopMethod() {
-        List<Integer> listData = new ArrayList<>();
+    public static Set<Integer> loopMethod() {
+        Set<Integer> listData = new LinkedHashSet<>();
         Random random = new Random();
         // 8 tane Random sayısı üretip List'e ekle
         // 0 1 2 3 4 5 6
@@ -139,10 +139,10 @@ public class SetData {
             int randomData = random.nextInt(9) + 1;
             listData.add(randomData);
         }
-        System.out.println("*** Iterative Loop");
+        /*System.out.println("*** Iterative Loop");
         for (int i = 0; i <listData.size(); i++) {
             System.out.print(listData.get(i)+" ");
-        }
+        }*/
 
         // Ençok kullanılan
         System.out.println("\n\n*** ForEach Names Loop");
