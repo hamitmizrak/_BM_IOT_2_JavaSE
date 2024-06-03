@@ -9,8 +9,6 @@ import java.util.Map;
 // TreeMap
 public class MapData {
 
-
-
     // map Data
     public static void mapData(){
      Map<String,String> map = new HashMap<>();
