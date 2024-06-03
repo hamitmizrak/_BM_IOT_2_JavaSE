@@ -181,7 +181,7 @@ public class SetData {
         System.out.println("**********TreeSet**********");
         treeSetData();
 
-        //System.out.println(loopMethod().size());
-        //loopMethod();
+        System.out.println(loopMethod().size());
+        loopMethod();
     }
 }
