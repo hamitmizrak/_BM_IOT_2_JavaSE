@@ -10,6 +10,8 @@ import java.util.Map;
 public class MapData {
 
     // map Data
+    // Map<k,v> k: Key v: Value
+    // Key benzersiz unique olmalıdır.
     public static void mapData(){
      Map<String,String> map = new HashMap<>();
      map.put("1","pc-1");
@@ -21,7 +23,7 @@ public class MapData {
      System.out.println("Eleman sayısı: "+ map.size());
      System.out.println("HashCode: "+ map.hashCode());
      System.out.println("toString: "+ map.toString());
-        System.out.println();
+     System.out.println();
      for( String key: map.keySet()){
          System.out.println(key+" => "+map.get(key));
      }
