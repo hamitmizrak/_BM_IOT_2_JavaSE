@@ -45,7 +45,6 @@ public class SetData {
             System.out.print(temp+" ");
         }
         System.out.println("\n");
-
     }
 
     // linkedListData
@@ -131,10 +130,12 @@ public class SetData {
 
     // Random List
     public static Set<Integer> loopMethod() {
+        // E-Ticaret: Ürünler :
         Set<Integer> listData = new LinkedHashSet<>();
         Random random = new Random();
         // 8 tane Random sayısı üretip List'e ekle
         // 0 1 2 3 4 5 6
+        // Database, Api, Frontend: Angular, React, jQuery
         for (int i = 0; i < 7; i++) {
             int randomData = random.nextInt(9) + 1;
             listData.add(randomData);
