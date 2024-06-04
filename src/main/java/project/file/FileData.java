@@ -13,6 +13,7 @@ public class FileData {
     //private java.io.File file;
     private File file;
     private String fileName;
+    private String directoryUrl;
     private String url;
 
     // Constructor
@@ -20,18 +21,29 @@ public class FileData {
         this.id= UUID.randomUUID().toString();
         this.systemCreatedDate = new Date(System.currentTimeMillis());
 
-        this.url=FilePathUrl.FILE_PATH;
-        this.file= new File(url);
 
         // File Create
         try{
-            // Eğer benim belirlediğim dosya yoksa yeni dosya ekle
-            if(file.exists()){
-                System.err.println(url+ " böyle bir dosya mevcuttur tekrar oluşturulamaz.");
+            // Önce Dizin oluştur
+            this.directoryUrl=FilePathUrl.FILE_PATH;
+            this.file= new File(directoryUrl);
+            boolean directoryMakeDirs=file.mkdirs();
+            if(directoryMakeDirs){
+                System.out.println(directoryUrl+" adlı dizin oluşturuldu"+directoryMakeDirs);
+                // Sonra Dosya oluştur
+                this.url=FilePathUrl.FILE_PATH.concat("\\atm.txt");
+                this.file= new File(url);
+                // Eğer benim belirlediğim dosya yoksa yeni dosya ekle
+                if(file.exists()){
+                    System.err.println(url+ " böyle bir dosya mevcuttur tekrar oluşturulamaz.");
+                }else{
+                    file.createNewFile();
+                    System.out.println(url+ " dosyanız oluşturuldu.");
+                }
             }else{
-                file.createNewFile();
-                System.out.println(url+ " dosyanız oluşturuldu.");
+                System.err.println(directoryUrl+ " url dizini oluşturulmadı");
             }
+
         }catch (Exception e){
             e.printStackTrace();
         }
