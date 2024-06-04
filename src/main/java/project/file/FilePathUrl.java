@@ -6,6 +6,4 @@ public class FilePathUrl {
     // Aşağıdaki url olan dizin eklenmemiş demektir.
     // Const
     public static final String FILE_PATH="C:\\io\\bm";
-
-
 }

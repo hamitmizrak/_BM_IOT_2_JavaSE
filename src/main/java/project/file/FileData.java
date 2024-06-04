@@ -10,7 +10,7 @@ public class FileData {
     private String id;
     private Date systemCreatedDate;
 
-    //private java.io.File file;
+    // private java.io.File file;
     private File file;
     private String fileName;
     private String directoryUrl;
@@ -21,7 +21,6 @@ public class FileData {
         this.id= UUID.randomUUID().toString();
         this.systemCreatedDate = new Date(System.currentTimeMillis());
 
-
         // File Create
         try{
             // Önce Dizin oluştur
@@ -29,7 +28,7 @@ public class FileData {
             this.file= new File(directoryUrl);
             boolean directoryMakeDirs=file.mkdirs();
             if(directoryMakeDirs){
-                System.out.println(directoryUrl+" adlı dizin oluşturuldu"+directoryMakeDirs);
+                System.out.println(directoryUrl+" adlı dizin oluşturuldu. "+directoryMakeDirs);
                 // Sonra Dosya oluştur
                 this.url=FilePathUrl.FILE_PATH.concat("\\atm.txt");
                 this.file= new File(url);
@@ -47,11 +46,9 @@ public class FileData {
         }catch (Exception e){
             e.printStackTrace();
         }
-
         // Bu dosya 1 yıl sonra kendi kendine silinsin.
         // delete()
     }
-
 
     /////////////////////////////////
     // Tarih
