@@ -1,7 +1,9 @@
 package project.file;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 public class FileData {
@@ -50,8 +52,30 @@ public class FileData {
         // delete()
     }
 
+    // toString
+    @Override
+    public String toString() {
+        return "FileData{" +
+                "url='" + url + '\'' +
+                ", id='" + id + '\'' +
+                ", systemCreatedDate=" + systemCreatedDate +
+                ", file=" + file +
+                ", fileName='" + fileName + '\'' +
+                ", directoryUrl='" + directoryUrl + '\'' +
+                '}';
+    }
+
     /////////////////////////////////
     // Tarih
+    public String logLocalTurkishDate(){
+        Locale locale=new Locale("tr","TR");
+        SimpleDateFormat sdf=new SimpleDateFormat("dd-MMMM-yyyy HH:mm:ss", locale);
+        Date date=new Date();
+        String changeTurhishTime=sdf.format(date).toString();
+        System.out.println(changeTurhishTime);
+        return changeTurhishTime;
+    }
+
 
     // Dosya Oluştur
 
@@ -68,9 +92,12 @@ public class FileData {
     /////////////////////////////////
     // GETTER AND SETTER
 
+    // PSVM
     public static void main(String[] args) {
         // System.out.println(UUID.randomUUID().toString());
         FileData fd=new FileData();
+        System.out.println(fd);
+        fd.logLocalTurkishDate();
 
     }
 
