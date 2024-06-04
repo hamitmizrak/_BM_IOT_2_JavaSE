@@ -7,6 +7,7 @@
  Eğer kullanıcı doğru şifre ile girerse sisteme giriş yapmış olacaktır.
 
  NOT: Kullanıcı şifresini banka tarafından yazılmış bir dosyadan okunacaktır.
+
  Proje Özellikleri:
  1-) Login
  2-) Para Yatır
