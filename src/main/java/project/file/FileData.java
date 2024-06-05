@@ -123,6 +123,27 @@ public class FileData {
     }
 
     // Dosya Listele
+    public void fileList(String url){
+        String specialUrl=null;
+        File fileList;
+        try {
+            // Eğer kullanıcı herhangi bir url girmezse default url alsın.
+            if(url==null || url.isEmpty()){
+                specialUrl=FilePathUrl.FILE_PATH;
+                fileList=new File(specialUrl);
+                for(File temp : fileList.listFiles()){
+                    System.out.println(temp.getName());
+                }
+            }else{
+                fileList=new File(url);
+                for(File temp : fileList.listFiles()){
+                    System.out.println(temp.getName());
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     // Dosya Özellikleri
 
@@ -131,6 +152,11 @@ public class FileData {
     // Dosya Oku
 
     // Dosya Sil
+
+    // interface
+
+    // inheritance | abstract
+    // Login
 
     /////////////////////////////////
     // GETTER AND SETTER
@@ -141,8 +167,26 @@ public class FileData {
         FileData fd=new FileData();
         //System.out.println(fd);
         //fd.logLocalTurkishDate();
-        fd.createFile();
 
+        // *****CREATE ***************
+        //fd.createFile();
+
+        // *****LIST ***************
+        Scanner scannerList=new Scanner(System.in);
+        char disk;
+        String directory="",subDirectory="";
+        System.out.println("\nFile Listelemek için öncelikle disk yazınız. c veya d gibi");
+        disk=scannerList.nextLine().toUpperCase().charAt(0);
+        System.out.println("Dizin adı yazınız ?");
+        directory=scannerList.nextLine();
+        System.out.println("Alt dizin adı yazınız ?");
+        subDirectory=scannerList.nextLine();
+
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder
+                .append(disk).append(":\\").append(directory)
+                .append("\\").append(subDirectory);
+        String specialListUrl=stringBuilder.toString();
+        fd.fileList(specialListUrl);
     }
-
 } //end Class
