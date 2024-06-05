@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Scanner;
 import java.util.UUID;
 
 public class FileData {
@@ -15,7 +16,7 @@ public class FileData {
     // private java.io.File file;
     private File file;
     private String fileName;
-    private String directoryUrl;
+    private String specialUrl;
     private String url;
 
     // Constructor
@@ -26,11 +27,11 @@ public class FileData {
         // File Create
         try{
             // Önce Dizin oluştur
-            this.directoryUrl=FilePathUrl.FILE_PATH;
-            this.file= new File(directoryUrl);
+            this.specialUrl=FilePathUrl.FILE_PATH;
+            this.file= new File(specialUrl);
             boolean directoryMakeDirs=file.mkdirs();
             if(directoryMakeDirs){
-                System.out.println(directoryUrl+" adlı dizin oluşturuldu. "+directoryMakeDirs);
+                System.out.println(specialUrl+" adlı dizin oluşturuldu. "+directoryMakeDirs);
                 // Sonra Dosya oluştur
                 this.url=FilePathUrl.FILE_PATH.concat("\\atm.txt");
                 this.file= new File(url);
@@ -42,7 +43,7 @@ public class FileData {
                     System.out.println(url+ " dosyanız oluşturuldu.");
                 }
             }else{
-                System.err.println(directoryUrl+ " url dizini oluşturulmadı");
+                System.err.println(specialUrl+ " url dizini oluşturulmadı");
             }
 
         }catch (Exception e){
@@ -61,7 +62,7 @@ public class FileData {
                 ", systemCreatedDate=" + systemCreatedDate +
                 ", file=" + file +
                 ", fileName='" + fileName + '\'' +
-                ", directoryUrl='" + directoryUrl + '\'' +
+                ", directoryUrl='" + specialUrl + '\'' +
                 '}';
     }
 
@@ -75,9 +76,51 @@ public class FileData {
         System.out.println(changeTurhishTime);
         return changeTurhishTime;
     }
-
-
+    
     // Dosya Oluştur
+    public void createFile(){
+        Scanner scannerCreate=new Scanner(System.in);
+        // File Create
+        try{
+            // Önce Dizin oluştur
+            char disk;
+            String directory="",subDirectory="",fileName="";
+            System.out.println("\nÖncelikle disk yazınız. c veya d gibi");
+            disk=scannerCreate.nextLine().toUpperCase().charAt(0);
+            System.out.println("Dizin adı yazınız ?");
+            directory=scannerCreate.nextLine();
+            System.out.println("Alt dizin adı yazınız ?");
+            subDirectory=scannerCreate.nextLine();
+
+            StringBuilder stringBuilder=new StringBuilder();
+            stringBuilder
+                    .append(disk).append(":\\").append(directory)
+                    .append("\\").append(subDirectory);
+            String specialDirectorUrl=stringBuilder.toString();
+
+            this.file= new File(specialDirectorUrl);
+            boolean directoryMakeDirs=file.mkdirs();
+            if(directoryMakeDirs){
+                System.out.println(specialDirectorUrl+" adlı dizin oluşturuldu. "+directoryMakeDirs);
+                // Sonra Dosya oluştur
+                System.out.println("Dosya adını yazınız ?");
+                fileName=scannerCreate.nextLine();
+                this.url=stringBuilder.append("\\").append(fileName).append(".txt"). toString();
+                this.file= new File(url);
+                // Eğer benim belirlediğim dosya yoksa yeni dosya ekle
+                if(file.exists()){
+                    System.err.println(url+ " böyle bir dosya mevcuttur tekrar oluşturulamaz.");
+                }else{
+                    file.createNewFile();
+                    System.out.println(url+ " dosyanız oluşturuldu.");
+                }
+            }else{
+                System.err.println(specialUrl+ " url dizini oluşturulmadı");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     // Dosya Listele
 
@@ -96,8 +139,9 @@ public class FileData {
     public static void main(String[] args) {
         // System.out.println(UUID.randomUUID().toString());
         FileData fd=new FileData();
-        System.out.println(fd);
-        fd.logLocalTurkishDate();
+        //System.out.println(fd);
+        //fd.logLocalTurkishDate();
+        fd.createFile();
 
     }
 
