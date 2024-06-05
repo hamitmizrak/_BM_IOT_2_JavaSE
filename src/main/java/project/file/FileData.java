@@ -188,6 +188,8 @@ public class FileData {
         }
     }
 
+    // Hesapa otoamatik olarak 1000.0 TL promosyon eklensin.
+
     // Dosya Yaz (hesaptaki para miktarını yaz)
     public void customerAddMoney(String url,Double money){
         try(BufferedWriter bWriter=new BufferedWriter(new FileWriter(url,false))){
@@ -206,11 +208,10 @@ public class FileData {
         }
     }
 
-    // Dosya Oku (hesaptaki para miktarını yaz)
+    // Dosya Oku (hesaptaki para miktarını oku)
     public Double customerAccountMoney(String url){
         String rows=null; // okunan satır
         Double money=null;
-
         try(BufferedReader bReader=new BufferedReader(new FileReader(url))){
             while((rows=bReader.readLine())!=null){
                 money= Double.valueOf(rows);
@@ -223,8 +224,8 @@ public class FileData {
         return money;
     }
 
-    // Dosya Oku (hesaptaki para miktarını oku)
-    public void customerDecreaseMoney(){
+    // Dosya Yaz (hesaptaki para miktarını oku)
+    public void customerDecreaseMoney(String url,Double money){
         try{
 
         }catch (Exception e){
@@ -242,7 +243,6 @@ public class FileData {
     }
 
     // interface
-
     // inheritance | abstract
     // Login
 
