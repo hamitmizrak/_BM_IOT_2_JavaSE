@@ -1,6 +1,6 @@
 package project.file;
 
-import java.io.File;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -162,6 +162,7 @@ public class FileData {
                 fileInformation=new File(specialUrl);
             }else{
                 fileList("");
+                //fileList(url);
                 System.out.println("Dosya adını yazınız ?");
                 fileName=scannerInformation.nextLine();
                 specialUrl=FilePathUrl.FILE_PATH.concat("\\").concat(fileName).concat(".txt");
@@ -188,13 +189,57 @@ public class FileData {
     }
 
     // Dosya Yaz (hesaptaki para miktarını yaz)
-    public void customerAddMoney(){}
+    public void customerAddMoney(String url,Double money){
+        try(BufferedWriter bWriter=new BufferedWriter(new FileWriter(url,false))){
+            Double accountMoney=0.0;
+
+            logLocalTurkishDate();
+            accountMoney=customerAccountMoney("C:\\io\\bm\\user.txt");
+            bWriter.write(String.valueOf(money));
+            bWriter.flush();
+
+            // Para için validation: -(eksi giremezsin) 0
+            System.out.println("Hesabınızdaki para: "+money);
+            System.out.println("Eklenen para: "+money+" Toplam Paranız ??? ");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    // Dosya Oku (hesaptaki para miktarını yaz)
+    public Double customerAccountMoney(String url){
+        String rows=null; // okunan satır
+        Double money=null;
+
+        try(BufferedReader bReader=new BufferedReader(new FileReader(url))){
+            while((rows=bReader.readLine())!=null){
+                money= Double.valueOf(rows);
+            }
+            logLocalTurkishDate();
+            System.out.println("Hesabınızdaki para: "+money);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return money;
+    }
 
     // Dosya Oku (hesaptaki para miktarını oku)
-    public void customerDecreaseMoney(){}
+    public void customerDecreaseMoney(){
+        try{
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     // Dosya Sil (hesabı sileceğim)
-    public void customerDelete(){}
+    public void customerDelete(){
+        try{
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     // interface
 
@@ -235,6 +280,7 @@ public class FileData {
         */
 
         // FILE INFORMATION
+        /*
         Scanner scannerList=new Scanner(System.in);
         char disk;
         String directory="",subDirectory="";
@@ -251,5 +297,15 @@ public class FileData {
                 .append("\\").append(subDirectory);
         String specialFileInformationUrl=stringBuilder.toString();
         fd.fileInformation(specialFileInformationUrl);
+        */
+
+        // FILE MONEY WRITER
+        Scanner scannerWriter=new Scanner(System.in);
+        System.out.println("Hesaba para eklemek için para girişi yapınız");
+        Double money=scannerWriter.nextDouble();
+        fd.customerAddMoney("C:\\io\\bm\\user.txt", money);
+
+        // FILE MONEY READER
+        fd.customerAccountMoney("C:\\io\\bm\\user.txt");
     }
 } //end Class
