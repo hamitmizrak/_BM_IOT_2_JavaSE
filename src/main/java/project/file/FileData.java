@@ -147,11 +147,11 @@ public class FileData {
 
     // Dosya Özellikleri
 
-    // Dosya Yaz
+    // Dosya Yaz (hesaptaki para miktarını yaz)
 
-    // Dosya Oku
+    // Dosya Oku (hesaptaki para miktarını oku)
 
-    // Dosya Sil
+    // Dosya Sil (hesabı sileceğim)
 
     // interface
 
