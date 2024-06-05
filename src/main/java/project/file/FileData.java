@@ -188,10 +188,13 @@ public class FileData {
     }
 
     // Dosya Yaz (hesaptaki para miktarını yaz)
+    public void customerAddMoney(){}
 
     // Dosya Oku (hesaptaki para miktarını oku)
+    public void customerDecreaseMoney(){}
 
     // Dosya Sil (hesabı sileceğim)
+    public void customerDelete(){}
 
     // interface
 
