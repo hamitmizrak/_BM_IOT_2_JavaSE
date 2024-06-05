@@ -146,6 +146,46 @@ public class FileData {
     }
 
     // Dosya Özellikleri
+    public void fileInformation(String url){
+        String specialUrl=null,fileName=null;
+        Scanner scannerInformation=new Scanner(System.in);
+        File fileInformation;
+        // url:"" bilerek böyle girdim çünkü default url gelsin
+
+        try {
+            // Eğer kullanıcı herhangi bir url girmezse default url alsın.
+            if(url==null || url.isEmpty()){
+                fileList("");
+                System.out.println("Dosya adını yazınız ?");
+                fileName=scannerInformation.nextLine();
+                specialUrl=FilePathUrl.FILE_PATH.concat("\\").concat(fileName).concat(".txt");
+                fileInformation=new File(specialUrl);
+            }else{
+                fileList("");
+                System.out.println("Dosya adını yazınız ?");
+                fileName=scannerInformation.nextLine();
+                specialUrl=FilePathUrl.FILE_PATH.concat("\\").concat(fileName).concat(".txt");
+                fileInformation=new File(specialUrl);
+            }
+            System.out.println("PATH: "+fileInformation.getPath());
+            System.out.println("LENGTH: "+fileInformation.length());
+            System.out.println("PARENT: "+fileInformation.getParent());
+
+            System.out.println("IS READ ? "+fileInformation.canRead());
+            System.out.println("IS WRITE ? "+fileInformation.canWrite());
+            System.out.println("IS EXECUTE ? "+fileInformation.canExecute());
+
+            System.out.println("IS FILE ? "+fileInformation.isFile());
+            System.out.println("IS DIRECTORY ? "+fileInformation.isDirectory());
+            System.out.println("IS HIDDEN ? "+fileInformation.isHidden());
+
+            System.out.println("Harddisk TOTAL SPACE: "+fileInformation.getTotalSpace());
+            System.out.println("Harddisk FREE SPACE: "+fileInformation.getFreeSpace());
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     // Dosya Yaz (hesaptaki para miktarını yaz)
 
@@ -172,6 +212,7 @@ public class FileData {
         //fd.createFile();
 
         // *****LIST ***************
+        /*
         Scanner scannerList=new Scanner(System.in);
         char disk;
         String directory="",subDirectory="";
@@ -188,5 +229,24 @@ public class FileData {
                 .append("\\").append(subDirectory);
         String specialListUrl=stringBuilder.toString();
         fd.fileList(specialListUrl);
+        */
+
+        // FILE INFORMATION
+        Scanner scannerList=new Scanner(System.in);
+        char disk;
+        String directory="",subDirectory="";
+        System.out.println("\nFile bilgisi için öncelikle disk yazınız. c veya d gibi");
+        disk=scannerList.nextLine().toUpperCase().charAt(0);
+        System.out.println("Dizin adı yazınız ?");
+        directory=scannerList.nextLine();
+        System.out.println("Alt dizin adı yazınız ?");
+        subDirectory=scannerList.nextLine();
+
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder
+                .append(disk).append(":\\").append(directory)
+                .append("\\").append(subDirectory);
+        String specialFileInformationUrl=stringBuilder.toString();
+        fd.fileInformation(specialFileInformationUrl);
     }
 } //end Class
