@@ -7,7 +7,11 @@ import java.util.Locale;
 import java.util.Scanner;
 import java.util.UUID;
 
-public class FileData {
+// KASA (ANA MERKEZ)
+public class FileData implements Serializable{
+
+    // Serializable
+    public static final Long serialVersionUID = 1L;
 
     // Variable
     private String id;
@@ -19,7 +23,7 @@ public class FileData {
     private String specialUrl;
     private String url;
 
-    // Constructor
+    // Constructor (Parametresiz Constructor)
     public  FileData() {
         this.id= UUID.randomUUID().toString();
         this.systemCreatedDate = new Date(System.currentTimeMillis());
@@ -33,7 +37,7 @@ public class FileData {
             if(directoryMakeDirs){
                 System.out.println(specialUrl+" adlı dizin oluşturuldu. "+directoryMakeDirs);
                 // Sonra Dosya oluştur
-                this.url=FilePathUrl.FILE_PATH.concat("\\atm.txt");
+                this.url=FilePathUrl.FILE_PATH.concat("\\user.txt");
                 this.file= new File(url);
                 // Eğer benim belirlediğim dosya yoksa yeni dosya ekle
                 if(file.exists()){
@@ -45,7 +49,6 @@ public class FileData {
             }else{
                 System.err.println(specialUrl+ " url dizini oluşturulmadı");
             }
-
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -68,7 +71,7 @@ public class FileData {
 
     /////////////////////////////////
     // Tarih
-    public String logLocalTurkishDate(){
+    public String turkishNowDate(){
         Locale locale=new Locale("tr","TR");
         SimpleDateFormat sdf=new SimpleDateFormat("dd-MMMM-yyyy HH:mm:ss", locale);
         Date date=new Date();
@@ -78,7 +81,7 @@ public class FileData {
     }
     
     // Dosya Oluştur
-    public void createFile(){
+    public void fileCreateCustomize(){
         Scanner scannerCreate=new Scanner(System.in);
         // File Create
         try{
@@ -188,15 +191,16 @@ public class FileData {
         }
     }
 
-    // Hesapa otomatik olarak 1000.0 TL promosyon eklensin.
+    // Banka bir kereliğe mahsus 1000.0 TL promosyon eklesin
+    public void customerAddPromosyonMoneyInAccount(String url, Double money){
+    }
 
-
-    // Dosya Yaz (hesaptaki para miktarını yaz)
-    public void customerAddMoney(String url,Double money){
+    // Hesaba para ekle
+    public void customerAddMoneyInAccount(String url, Double money){
         try(BufferedWriter bWriter=new BufferedWriter(new FileWriter(url,false))){
             Double accountMoney=0.0;
 
-            logLocalTurkishDate();
+            turkishNowDate();
             accountMoney=customerAccountMoney("C:\\io\\bm\\user.txt");
             bWriter.write(String.valueOf(money));
             bWriter.flush();
@@ -209,7 +213,7 @@ public class FileData {
         }
     }
 
-    // Dosya Oku (hesaptaki para miktarını oku)
+    // Hesapta para sorgula
     public Double customerAccountMoney(String url){
         String rows=null; // okunan satır
         Double money=null;
@@ -217,7 +221,7 @@ public class FileData {
             while((rows=bReader.readLine())!=null){
                 money= Double.valueOf(rows);
             }
-            logLocalTurkishDate();
+            turkishNowDate();
             System.out.println("Hesabınızdaki para: "+money);
         }catch (Exception e){
             e.printStackTrace();
@@ -225,8 +229,8 @@ public class FileData {
         return money;
     }
 
-    // Dosya Yaz (hesaptaki para miktarını eksilt yaz)
-    public void customerDecreaseMoney(String url,Double money){
+    // Hesaptan Para Çek
+    public void customerMinusMoneyInAccount(String url,Double money){
         try{
 
         }catch (Exception e){
@@ -234,8 +238,8 @@ public class FileData {
         }
     }
 
-    // Dosya Sil (hesabı sileceğim) userAccountDelete
-    public void customerDelete(String url){
+    // Hesabı Sil
+    public void customerDeleteUserAccount(String url){
         String fileName,filePathName;
         Scanner scannerDelete=new Scanner(System.in);
         fileList(url);
@@ -274,7 +278,10 @@ public class FileData {
     // inheritance | abstract
     // Login
 
-    /////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////
+
+
+    ////////////////////////////////////////////////////////////////////////
     // GETTER AND SETTER
 
     // PSVM
@@ -339,7 +346,7 @@ public class FileData {
         //fd.customerAccountMoney("C:\\io\\bm\\user.txt");
 
         // FILE DELETE
-        fd.customerDelete("C:\\io\\bm");
+        fd.customerDeleteUserAccount("C:\\io\\bm");
 
 
         //System.out.println(fd.customerAccountMoney("C:\\io\\bm\\user.txt"));
