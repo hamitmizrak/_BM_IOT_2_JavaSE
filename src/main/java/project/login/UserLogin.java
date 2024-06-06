@@ -3,6 +3,7 @@ package project.login;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import project.file.FileData;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -11,7 +12,7 @@ import java.util.Scanner;
 // LOMBOK
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+// @NoArgsConstructor
 public class UserLogin  implements Serializable {
 
     // Serializable
@@ -26,6 +27,14 @@ public class UserLogin  implements Serializable {
     private String email;
     private Date createdDate;
 
+    // Class Calling
+    FileData fileData;
+
+    // Constructor(Parametresiz)
+    public UserLogin() {
+        fileData= new FileData();
+    }
+
     // Kullanıcıdan veri almak
     private static String[] userInformation () {
         String[] userAll=new String[2];
@@ -33,7 +42,7 @@ public class UserLogin  implements Serializable {
         Scanner scanner=new Scanner(System.in);
         String email,password;
 
-        System.out.println("Lütfen email yazınız.");
+        System.out.println("\nLütfen email yazınız.");
         email=scanner.nextLine();
 
         System.out.println("Lütfen şifre giriniz.");
@@ -44,8 +53,7 @@ public class UserLogin  implements Serializable {
     }
 
     // Login
-    public boolean isLogin(){
-
+    private boolean isLogin(){
         // database veya statik datadan geliyor
         String defaultEmail,defaultPassword;
         defaultEmail=DefaultBankLogin.USER_EMAIL;
@@ -55,13 +63,27 @@ public class UserLogin  implements Serializable {
         System.out.println("emailiniz: "+dataArray[0]);
         System.out.println("Şifreniz: "+dataArray[1]);
 
+        if(defaultEmail.equals(dataArray[0]) && defaultPassword.equals(dataArray[1])){
+            System.out.println("Sisteme giriş yapılıyor.  Hesaba yönlendiriliyor");
+            fileData.allMethod();
+            return true;
+        }else{
+            System.out.println("Şifreniz veya kullanıcı adınız yanlış");
+        }
         // Validation ...
         return false;
     }
 
-    public static void main(String[] args) {
+    public void isloginValidation(){
         UserLogin  userLogin=new UserLogin();
-        userLogin.isLogin();
-    }
+        //while(true){}
+            Boolean isLogin=   userLogin.isLogin();
+        if(isLogin){
+            System.out.println(isLogin);
+        }else{
+            userLogin.isLogin();
+        }
 
+
+    }
 }

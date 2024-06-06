@@ -283,9 +283,13 @@ public class FileData implements Serializable{
     // Bağış yap
     public void customerMoneyDoDonate(String url){}
 
+    // All Method Switch
+    public void allMethod(){
+        System.out.println("All Method");
+    }
     // interface
     // inheritance | abstract
-    // Login
+
 
     ////////////////////////////////////////////////////////////////////////
 
