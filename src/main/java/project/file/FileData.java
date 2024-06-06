@@ -190,6 +190,8 @@ public class FileData {
 
     // Hesapa otoamatik olarak 1000.0 TL promosyon eklensin.
 
+
+
     // Dosya Yaz (hesaptaki para miktarını yaz)
     public void customerAddMoney(String url,Double money){
         try(BufferedWriter bWriter=new BufferedWriter(new FileWriter(url,false))){
@@ -224,7 +226,7 @@ public class FileData {
         return money;
     }
 
-    // Dosya Yaz (hesaptaki para miktarını oku)
+    // Dosya Yaz (hesaptaki para miktarını eksilt yaz)
     public void customerDecreaseMoney(String url,Double money){
         try{
 
@@ -233,13 +235,35 @@ public class FileData {
         }
     }
 
-    // Dosya Sil (hesabı sileceğim)
-    public void customerDelete(){
-        try{
+    // Dosya Sil (hesabı sileceğim) userAccountDelete
+    public void customerDelete(String url){
+        String fileName,filePathName;
+        Scanner scannerDelete=new Scanner(System.in);
+        fileList(url);
+        System.out.println("Silmek istediğiniz dosya adını yazınız ?");
+        fileName=scannerDelete.nextLine().concat(".txt");
+        System.out.println(fileName);
+        filePathName=FilePathUrl.FILE_PATH.concat("\\").concat(fileName);
+        System.out.println("Silinecek url "+filePathName);
 
-        }catch (Exception e){
-            e.printStackTrace();
+        // Kullanıcıdan gelen isteğe göre sil
+        char chooise;
+        System.out.println(fileName+" bu dosyayı gerçekten silmek istiyor musunuz ? E/H");
+        chooise= scannerDelete.nextLine().toUpperCase().charAt(0);
+        System.out.println(chooise);
+        if(chooise=='E'){
+            System.out.println("Evet alanındayım");
+            try{
+                File fileDelete= new File(filePathName);
+                System.out.println("fileDelete: "+fileDelete);
+                // Böyle bir dosya var mı ? yok mu?
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else{
+            System.err.println(fileName+" Dosya Silinmedi");
         }
+
     }
 
     // interface
@@ -300,12 +324,16 @@ public class FileData {
         */
 
         // FILE MONEY WRITER
+        /*
         Scanner scannerWriter=new Scanner(System.in);
         System.out.println("Hesaba para eklemek için para girişi yapınız");
         Double money=scannerWriter.nextDouble();
         fd.customerAddMoney("C:\\io\\bm\\user.txt", money);
+        */
 
         // FILE MONEY READER
-        fd.customerAccountMoney("C:\\io\\bm\\user.txt");
+        //fd.customerAccountMoney("C:\\io\\bm\\user.txt");
+
+        fd.customerDelete("C:\\io\\bm");
     }
 } //end Class
