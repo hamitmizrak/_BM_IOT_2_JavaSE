@@ -274,6 +274,15 @@ public class FileData implements Serializable{
         }
     }
 
+    // Havale Yap
+    public void customerMoneyDoTransfer(String url){}
+
+    // Eft Yap
+    public void customerMoneyDoEft(String url){}
+
+    // Bağış yap
+    public void customerMoneyDoDonate(String url){}
+
     // interface
     // inheritance | abstract
     // Login
