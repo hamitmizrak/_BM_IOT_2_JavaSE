@@ -1,12 +1,12 @@
 package project.test;
 
-import project.login.UserLogin;
+import project.controller.UserController;
 
 public class MainTest {
 
     // PSVM
     public static void main(String[] args) {
-        UserLogin userLogin = new UserLogin();
-        userLogin.isloginValidation();
+        UserController userController = new UserController();
+        userController.allProcess();
     }
 }

@@ -1,4 +1,4 @@
-package project.exception;
+package project.utils;
 
 // Exception: İstisnaları yakalamak için kendi exceptionu yazdım
 public class HamitMizrakException extends RuntimeException{

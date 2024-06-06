@@ -1,9 +1,8 @@
-package project.login;
+package project.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import project.file.FileData;
+import project.dao.UserDao;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -13,7 +12,7 @@ import java.util.Scanner;
 @Data
 @AllArgsConstructor
 // @NoArgsConstructor
-public class UserLogin  implements Serializable {
+public class UserDto implements Serializable {
 
     // Serializable
     public static final Long serialVersionUID = 1L;
@@ -28,11 +27,11 @@ public class UserLogin  implements Serializable {
     private Date createdDate;
 
     // Class Calling
-    FileData fileData;
+    UserDao userDao;
 
     // Constructor(Parametresiz)
-    public UserLogin() {
-        fileData= new FileData();
+    public UserDto() {
+        userDao = new UserDao();
     }
 
     // Kullanıcıdan veri almak
@@ -43,10 +42,10 @@ public class UserLogin  implements Serializable {
         String email,password;
 
         System.out.println("\nLütfen email yazınız.");
-        email=scanner.nextLine();
+        email=scanner.nextLine().trim();
 
         System.out.println("Lütfen şifre giriniz.");
-        password=scanner.nextLine();
+        password=scanner.nextLine().trim();
         userAll[0]=email;
         userAll[1]=password;
         return userAll;
@@ -63,19 +62,37 @@ public class UserLogin  implements Serializable {
         System.out.println("emailiniz: "+dataArray[0]);
         System.out.println("Şifreniz: "+dataArray[1]);
 
-        if(defaultEmail.equals(dataArray[0]) && defaultPassword.equals(dataArray[1])){
-            System.out.println("Sisteme giriş yapılıyor.  Hesaba yönlendiriliyor");
-            fileData.allMethod();
-            return true;
-        }else{
-            System.out.println("Şifreniz veya kullanıcı adınız yanlış");
+        // Kullanıcıya sisteme giriş için 3 kere yanlış yapma hakkı verelim
+        int attemp=3; // 3 tane hak verdim
+        while(attemp>0){
+            userInformation();
+
+            if(defaultEmail.equals(dataArray[0]) && defaultPassword.equals(dataArray[1])){
+                System.out.println(" Kullanıcı bilgileri doğrudur.");
+                // show
+                System.out.println("Sisteme giriş yapılıyor.  Hesaba yönlendiriliyor");
+                userDao.allMethod();
+                return true;
+            }else{
+                --attemp; // 1 tane hak azalt
+                System.out.println("Şifreniz veya kullanıcı adınız yanlış");
+                System.out.println("Kalan Hakkınız: "+attemp);
+
+                // Kullanıcı hakkı kalmazsa Kartı bloke yap
+                if(attemp==0){
+                    System.out.println("Kalan hakkınız kalmadı. Müşteri hizmetlerine başvuru yapınız");
+                    System.out.println("Müşteri hizmetlerini arama mı ister misiniz ? E/H");
+                    logout();
+                }
+            }
         }
         // Validation ...
         return false;
     }
 
+    // Login validaiton
     public void isloginValidation(){
-        UserLogin  userLogin=new UserLogin();
+        UserDto userLogin=new UserDto();
         //while(true){}
             Boolean isLogin=   userLogin.isLogin();
         if(isLogin){
@@ -83,7 +100,11 @@ public class UserLogin  implements Serializable {
         }else{
             userLogin.isLogin();
         }
+    }
 
-
+    // Logout
+    public void logout(){
+        System.out.println("Sistemnde çıkılıyor");
+        System.exit(0);
     }
 }

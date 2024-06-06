@@ -1,4 +1,4 @@
-package project.login;
+package project.dto;
 
 // Banka Kullanıcıya email ve password vermiş
 // database geliyor.

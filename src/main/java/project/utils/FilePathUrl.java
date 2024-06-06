@@ -1,4 +1,4 @@
-package project.file;
+package project.utils;
 
 public class FilePathUrl {
 

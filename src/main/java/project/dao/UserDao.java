@@ -1,4 +1,6 @@
-package project.file;
+package project.dao;
+
+import project.utils.FilePathUrl;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -8,7 +10,7 @@ import java.util.Scanner;
 import java.util.UUID;
 
 // KASA (ANA MERKEZ)
-public class FileData implements Serializable{
+public class UserDao implements IUser,Serializable{
 
     // Serializable
     public static final Long serialVersionUID = 1L;
@@ -24,14 +26,14 @@ public class FileData implements Serializable{
     private String url;
 
     // Constructor (Parametresiz Constructor)
-    public  FileData() {
+    public UserDao() {
         this.id= UUID.randomUUID().toString();
         this.systemCreatedDate = new Date(System.currentTimeMillis());
 
         // File Create
         try{
             // Önce Dizin oluştur
-            this.specialUrl=FilePathUrl.FILE_PATH;
+            this.specialUrl= FilePathUrl.FILE_PATH;
             this.file= new File(specialUrl);
             boolean directoryMakeDirs=file.mkdirs();
             if(directoryMakeDirs){
@@ -71,6 +73,7 @@ public class FileData implements Serializable{
 
     /////////////////////////////////
     // Tarih
+    @Override
     public String turkishNowDate(){
         Locale locale=new Locale("tr","TR");
         SimpleDateFormat sdf=new SimpleDateFormat("dd-MMMM-yyyy HH:mm:ss", locale);
@@ -81,6 +84,7 @@ public class FileData implements Serializable{
     }
     
     // Dosya Oluştur
+    @Override
     public void fileCreateCustomize(){
         Scanner scannerCreate=new Scanner(System.in);
         // File Create
@@ -126,6 +130,7 @@ public class FileData implements Serializable{
     }
 
     // Dosya Listele
+    @Override
     public void fileList(String url){
         String specialUrl=null;
         File fileList;
@@ -149,6 +154,7 @@ public class FileData implements Serializable{
     }
 
     // Dosya Özellikleri
+    @Override
     public void fileInformation(String url){
         String specialUrl=null,fileName=null;
         Scanner scannerInformation=new Scanner(System.in);
@@ -192,10 +198,12 @@ public class FileData implements Serializable{
     }
 
     // Banka bir kereliğe mahsus 1000.0 TL promosyon eklesin
+    @Override
     public void customerAddPromosyonMoneyInAccount(String url, Double money){
     }
 
     // Hesaba para ekle
+    @Override
     public void customerAddMoneyInAccount(String url, Double money){
         try(BufferedWriter bWriter=new BufferedWriter(new FileWriter(url,false))){
             Double accountMoney=0.0;
@@ -214,6 +222,7 @@ public class FileData implements Serializable{
     }
 
     // Hesapta para sorgula
+    @Override
     public Double customerAccountMoney(String url){
         String rows=null; // okunan satır
         Double money=null;
@@ -230,6 +239,7 @@ public class FileData implements Serializable{
     }
 
     // Hesaptan Para Çek
+    @Override
     public void customerMinusMoneyInAccount(String url,Double money){
         try{
 
@@ -239,6 +249,7 @@ public class FileData implements Serializable{
     }
 
     // Hesabı Sil
+    @Override
     public void customerDeleteUserAccount(String url){
         String fileName,filePathName;
         Scanner scannerDelete=new Scanner(System.in);
@@ -275,96 +286,20 @@ public class FileData implements Serializable{
     }
 
     // Havale Yap
+    @Override
     public void customerMoneyDoTransfer(String url){}
 
     // Eft Yap
+    @Override
     public void customerMoneyDoEft(String url){}
 
     // Bağış yap
+    @Override
     public void customerMoneyDoDonate(String url){}
 
-    // All Method Switch
-    public void allMethod(){
-        System.out.println("All Method");
-    }
-    // interface
     // inheritance | abstract
-
-
-    ////////////////////////////////////////////////////////////////////////
-
 
     ////////////////////////////////////////////////////////////////////////
     // GETTER AND SETTER
 
-    // PSVM
-    public static void main(String[] args) {
-        // System.out.println(UUID.randomUUID().toString());
-        FileData fd=new FileData();
-        //System.out.println(fd);
-        //fd.logLocalTurkishDate();
-
-        // *****CREATE ***************
-       //fd.createFile();
-
-        // *****LIST ***************
-        /*
-        Scanner scannerList=new Scanner(System.in);
-        char disk;
-        String directory="",subDirectory="";
-        System.out.println("\nFile Listelemek için öncelikle disk yazınız. c veya d gibi");
-        disk=scannerList.nextLine().toUpperCase().charAt(0);
-        System.out.println("Dizin adı yazınız ?");
-        directory=scannerList.nextLine();
-        System.out.println("Alt dizin adı yazınız ?");
-        subDirectory=scannerList.nextLine();
-
-        StringBuilder stringBuilder=new StringBuilder();
-        stringBuilder
-                .append(disk).append(":\\").append(directory)
-                .append("\\").append(subDirectory);
-        String specialListUrl=stringBuilder.toString();
-        fd.fileList(specialListUrl);
-        */
-
-        // FILE INFORMATION
-        /*
-        Scanner scannerList=new Scanner(System.in);
-        char disk;
-        String directory="",subDirectory="";
-        System.out.println("\nFile bilgisi için öncelikle disk yazınız. c veya d gibi");
-        disk=scannerList.nextLine().toUpperCase().charAt(0);
-        System.out.println("Dizin adı yazınız ?");
-        directory=scannerList.nextLine();
-        System.out.println("Alt dizin adı yazınız ?");
-        subDirectory=scannerList.nextLine();
-
-        StringBuilder stringBuilder=new StringBuilder();
-        stringBuilder
-                .append(disk).append(":\\").append(directory)
-                .append("\\").append(subDirectory);
-        String specialFileInformationUrl=stringBuilder.toString();
-        fd.fileInformation(specialFileInformationUrl);
-        */
-
-        // FILE MONEY WRITER
-        /*
-        Scanner scannerWriter=new Scanner(System.in);
-        System.out.println("Hesaba para eklemek için para girişi yapınız");
-        Double money=scannerWriter.nextDouble();
-        fd.customerAddMoney("C:\\io\\bm\\user.txt", money);
-        */
-
-        // FILE MONEY READER
-        //fd.customerAccountMoney("C:\\io\\bm\\user.txt");
-
-        // FILE DELETE
-        fd.customerDeleteUserAccount("C:\\io\\bm");
-
-
-        //System.out.println(fd.customerAccountMoney("C:\\io\\bm\\user.txt"));
-        //Double accountMoney=fd.customerAccountMoney("C:\\io\\bm\\user.txt");
-        //System.out.println("sonuç:"+accountMoney);
-
-    }
 } //end Class
