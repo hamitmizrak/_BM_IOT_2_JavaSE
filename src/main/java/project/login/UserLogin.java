@@ -45,6 +45,12 @@ public class UserLogin  implements Serializable {
 
     // Login
     public boolean isLogin(){
+
+        // database veya statik datadan geliyor
+        String defaultEmail,defaultPassword;
+        defaultEmail=DefaultBankLogin.USER_EMAIL;
+        defaultPassword=DefaultBankLogin.USER_PASSWORD;
+
         String[] dataArray= userInformation();
         System.out.println("emailiniz: "+dataArray[0]);
         System.out.println("Şifreniz: "+dataArray[1]);
