@@ -188,8 +188,7 @@ public class FileData {
         }
     }
 
-    // Hesapa otoamatik olarak 1000.0 TL promosyon eklensin.
-
+    // Hesapa otomatik olarak 1000.0 TL promosyon eklensin.
 
 
     // Dosya Yaz (hesaptaki para miktarını yaz)
@@ -257,13 +256,18 @@ public class FileData {
                 File fileDelete= new File(filePathName);
                 System.out.println("fileDelete: "+fileDelete);
                 // Böyle bir dosya var mı ? yok mu?
+                if(fileDelete.exists()){ //eğer böyle bir dosya varsa dosyayı sil
+                    fileDelete.delete();
+                    System.out.println("Dosyanız silindi");
+                }else{
+                    System.err.println("Olmayan dosyayı silemem");
+                }
             }catch (Exception e){
                 e.printStackTrace();
             }
         }else{
             System.err.println(fileName+" Dosya Silinmedi");
         }
-
     }
 
     // interface
@@ -281,7 +285,7 @@ public class FileData {
         //fd.logLocalTurkishDate();
 
         // *****CREATE ***************
-        //fd.createFile();
+       //fd.createFile();
 
         // *****LIST ***************
         /*
@@ -334,6 +338,13 @@ public class FileData {
         // FILE MONEY READER
         //fd.customerAccountMoney("C:\\io\\bm\\user.txt");
 
+        // FILE DELETE
         fd.customerDelete("C:\\io\\bm");
+
+
+        //System.out.println(fd.customerAccountMoney("C:\\io\\bm\\user.txt"));
+        //Double accountMoney=fd.customerAccountMoney("C:\\io\\bm\\user.txt");
+        //System.out.println("sonuç:"+accountMoney);
+
     }
 } //end Class
