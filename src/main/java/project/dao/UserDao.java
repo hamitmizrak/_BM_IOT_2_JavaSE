@@ -493,6 +493,12 @@ public class UserDao implements IUser,Serializable{
             System.err.println(fileName+" Dosya Silinmedi");
         }
     }
+
+    @Override
+    public void customerServise(){
+        System.out.println("Müşteri Hizmeteri aranıyor...");
+    }
+
     // inheritance | abstract
     ////////////////////////////////////////////////////////////////////////
     public static void main(String[] args) {

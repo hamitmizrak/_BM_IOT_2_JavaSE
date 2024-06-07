@@ -3,8 +3,10 @@ package project.controller;
 import project.dao.IUser;
 import project.dao.UserDao;
 import project.dto.UserDto;
+import project.utils.FilePathUrl;
 
 import java.io.Serializable;
+import java.util.Scanner;
 
 
 public class UserController implements IUser, Serializable {
@@ -18,16 +20,73 @@ public class UserController implements IUser, Serializable {
 
     /////////////////////////////////////////////////////////
     private void isloginValidationAllProcess(){
-        if(userDto.isLogin()){
-            System.out.println(" Lütfen Seçiminizi Yapınız");
+       boolean islogin = userDto.isLogin();
+        if(islogin){
+            Scanner scannerSuccess = new Scanner(System.in);
+            String fileName,url = "";
+            System.out.println("\nSeçim için Kullanıcı URL adını giriniz");
+            String isLoginFileName=scannerSuccess.nextLine().concat(".txt");
+            System.out.println(isLoginFileName);
+            try{
+                url= FilePathUrl.FILE_PATH.concat("\\").concat(isLoginFileName);
+                System.out.println(url);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            System.out.println("Lütfen Seçiminizi Yapınız");
+            System.out.println("1-)Dosya Listele\n2-)Dosya Özellikleri\n3-)Kullanıcı Oluştur\n4-)Hesaptan para sorgula");
+            System.out.println("5-)Hesaptan Para Çek\n6-)Havale Yap\n7-)Eft Yap\n8-)Bağış Yap\n9-)Müşteri Hizmetlerini Ara\n10-)Çıkış");
+            int chooiseUser= scannerSuccess.nextInt();
+            switch (chooiseUser){
+                case 1:
+                    userDao.fileList(url);
+                    break;
+                case 2:
+                    userDao.fileInformation(url);
+                    break;
+                case 3:
+                    userDao.fileCreateCustomize();
+                    break;
+                case 4:
+                    userDao.customerAccountMoney(url);
+                    break;
+                case 5:
+                    System.out.println("Çekmek istediğiniz para miktarını giriniz");
+                    Double moneyAdd=scannerSuccess.nextDouble();
+                    userDao.customerMinusMoneyInAccount(url,moneyAdd);
+                    break;
+                case 6:
+                    System.out.println("Havale Yapmak için istediğiniz para miktarını giriniz");
+                    Double moneyTransfer=scannerSuccess.nextDouble();
+                    userDao.customerMoneyDoTransfer( url, moneyTransfer);
+                    break;
+                case 7:
+                    System.out.println("EFT Yapmak için istediğiniz para miktarını giriniz");
+                    Double moneyEft=scannerSuccess.nextDouble();
+                    userDao.customerMoneyDoEft( url, moneyEft);
+                    break;
+                case 8:
+                    System.out.println("EFT Yapmak için istediğiniz para miktarını giriniz");
+                    Double moneyDonate=scannerSuccess.nextDouble();
+                    userDao.customerMoneyDoDonate( url, moneyDonate);
+                    break;
+                case 9:
+                    userDao.customerServise();
+                    break;
+                case 10:
+                    userDto.logout();
+                    break;
+            }
         }else{
             System.out.println("Lütfen kayıt olunuz");
         }
-
     }
 
     public void successAllProject(){
-        isloginValidationAllProcess();
+        // Kullanıcı logout olana kadar sonsuz döngü olarak çalışsın
+        while(true){
+            isloginValidationAllProcess();
+        }
     }
 
     /////////////////////////////////////////////////////////
@@ -107,6 +166,11 @@ public class UserController implements IUser, Serializable {
     @Override
     public void customerDeleteUserAccount(String url) {
         userDao.customerDeleteUserAccount( url);
+    }
+
+    @Override
+    public void customerServise() {
+        userDao.customerServise();
     }
 
 } //end UserController

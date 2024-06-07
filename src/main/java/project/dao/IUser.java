@@ -17,7 +17,7 @@ public interface IUser {
     // Banka bir kereliğe mahsus 1000.0 TL promosyon eklesin
     void customerAddPromosyonMoneyInAccount(String url, Double money);
 
-    // Valiadition
+    // Validation
     public Double moneyValidation(Double money);
 
     // Hesaba para ekle
@@ -40,4 +40,6 @@ public interface IUser {
 
     // Hesabı Sil
     void customerDeleteUserAccount(String url);
+
+    void customerServise();
 }
