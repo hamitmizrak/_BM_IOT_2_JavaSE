@@ -71,7 +71,7 @@ public class UserDto implements Serializable {
                 System.out.println(" Kullanıcı bilgileri doğrudur.");
                 // show
                 System.out.println("Sisteme giriş yapılıyor.  Hesaba yönlendiriliyor");
-                userDao.allMethod();
+                // userDao.allMethod();
                 return true;
             }else{
                 --attemp; // 1 tane hak azalt

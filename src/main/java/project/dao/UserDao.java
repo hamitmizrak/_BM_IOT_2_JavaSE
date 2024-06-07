@@ -43,13 +43,16 @@ public class UserDao implements IUser,Serializable{
                 this.file= new File(url);
                 // Eğer benim belirlediğim dosya yoksa yeni dosya ekle
                 if(file.exists()){
-                    System.err.println(url+ " böyle bir dosya mevcuttur tekrar oluşturulamaz.");
+                    System.out.println(url+ " böyle bir dosya mevcuttur tekrar oluşturulamaz.");
                 }else{
                     file.createNewFile();
                     System.out.println(url+ " dosyanız oluşturuldu.");
+
+                    // Promosyon Ekle
+                    //customerAddPromosyonMoneyInAccount("C:\\io\\bm\\user.txt", 1000.0);
                 }
             }else{
-                System.err.println(specialUrl+ " url dizini oluşturulmadı");
+                System.out.println(specialUrl+ "  dizini oluşturulmadı");
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -200,22 +203,26 @@ public class UserDao implements IUser,Serializable{
     // Banka bir kereliğe mahsus 1000.0 TL promosyon eklesin
     @Override
     public void customerAddPromosyonMoneyInAccount(String url, Double money){
+        customerAddMoneyInAccount(url,money);
     }
 
     // Hesaba para ekle
     @Override
     public void customerAddMoneyInAccount(String url, Double money){
+        System.out.println(customerAccountMoney(url));
+        Double accountMoney=customerAccountMoney(url);
         try(BufferedWriter bWriter=new BufferedWriter(new FileWriter(url,false))){
-            Double accountMoney=0.0;
-
             turkishNowDate();
-            accountMoney=customerAccountMoney("C:\\io\\bm\\user.txt");
-            bWriter.write(String.valueOf(money));
+
+            // Para Ekle
+            Double add=accountMoney+money;
+
+            bWriter.write(String.valueOf(add));
             bWriter.flush();
 
             // Para için validation: -(eksi giremezsin) 0
-            System.out.println("Hesabınızdaki para: "+money);
-            System.out.println("Eklenen para: "+money+" Toplam Paranız ??? ");
+            System.out.println("Hesabınızdaki para: "+accountMoney);
+            System.out.println("Eklenen para: "+money+" Toplam Paranız "+add);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -225,7 +232,7 @@ public class UserDao implements IUser,Serializable{
     @Override
     public Double customerAccountMoney(String url){
         String rows=null; // okunan satır
-        Double money=null;
+        Double money=0.0;
         try(BufferedReader bReader=new BufferedReader(new FileReader(url))){
             while((rows=bReader.readLine())!=null){
                 money= Double.valueOf(rows);
@@ -301,5 +308,11 @@ public class UserDao implements IUser,Serializable{
 
     ////////////////////////////////////////////////////////////////////////
     // GETTER AND SETTER
+
+    public static void main(String[] args) {
+        UserDao userDao= new UserDao();
+        userDao.customerAddMoneyInAccount("C:\\io\\bm\\user.txt", 500.0);
+        userDao.customerAddMoneyInAccount("C:\\io\\bm\\user.txt", 700.0);
+    }
 
 } //end Class
