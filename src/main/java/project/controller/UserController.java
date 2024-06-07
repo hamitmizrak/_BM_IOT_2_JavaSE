@@ -2,6 +2,7 @@ package project.controller;
 
 import project.dao.IUser;
 import project.dao.UserDao;
+import project.dto.UserDto;
 
 import java.io.Serializable;
 
@@ -13,8 +14,23 @@ public class UserController implements IUser, Serializable {
 
     // Injection
     private UserDao userDao = new UserDao();
+    private UserDto userDto = new UserDto();
 
+    /////////////////////////////////////////////////////////
+    private void isloginValidationAllProcess(){
+        if(userDto.isLogin()){
+            System.out.println(" Lütfen Seçiminizi Yapınız");
+        }else{
+            System.out.println("Lütfen kayıt olunuz");
+        }
 
+    }
+
+    public void successAllProject(){
+        isloginValidationAllProcess();
+    }
+
+    /////////////////////////////////////////////////////////
     // Tarih
     @Override
     public String turkishNowDate() {

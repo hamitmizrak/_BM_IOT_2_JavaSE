@@ -52,7 +52,7 @@ public class UserDto implements Serializable {
     }
 
     // Login
-    private boolean isLogin(){
+    public boolean isLogin(){
         // database veya statik datadan geliyor
         String defaultEmail,defaultPassword;
         defaultEmail=DefaultBankLogin.USER_EMAIL;
@@ -90,17 +90,7 @@ public class UserDto implements Serializable {
         return false;
     }
 
-    // Login validaiton
-    public void isloginValidation(){
-        UserDto userLogin=new UserDto();
-        //while(true){}
-            Boolean isLogin=   userLogin.isLogin();
-        if(isLogin){
-            System.out.println(isLogin);
-        }else{
-            userLogin.isLogin();
-        }
-    }
+
 
     // Logout
     public void logout(){

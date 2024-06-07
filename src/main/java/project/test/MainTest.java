@@ -7,6 +7,6 @@ public class MainTest {
     // PSVM
     public static void main(String[] args) {
         UserController userController = new UserController();
-        userController.allProcess();
+        userController.successAllProject();
     }
 }
