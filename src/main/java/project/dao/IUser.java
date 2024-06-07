@@ -30,13 +30,13 @@ public interface IUser {
     void customerMinusMoneyInAccount(String url, Double money);
 
     // Havale Yap
-    void customerMoneyDoTransfer(String url);
+    void customerMoneyDoTransfer(String url, Double money);
 
     // Eft Yap
-    void customerMoneyDoEft(String url);
+    void customerMoneyDoEft(String url, Double money);
 
     // Bağış yap
-    void customerMoneyDoDonate(String url);
+    void customerMoneyDoDonate(String url, Double money);
 
     // Hesabı Sil
     void customerDeleteUserAccount(String url);
