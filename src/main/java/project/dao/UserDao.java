@@ -1,7 +1,6 @@
 package project.dao;
 
 import project.utils.FilePathUrl;
-
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -82,10 +81,10 @@ public class UserDao implements IUser,Serializable{
         SimpleDateFormat sdf=new SimpleDateFormat("dd-MMMM-yyyy HH:mm:ss", locale);
         Date date=new Date();
         String changeTurhishTime=sdf.format(date).toString();
-        System.out.println(changeTurhishTime);
+        System.out.println("\n"+changeTurhishTime);
         return changeTurhishTime;
     }
-    
+
     // Dosya Oluştur
     @Override
     public void fileCreateCustomize(){
@@ -206,23 +205,39 @@ public class UserDao implements IUser,Serializable{
         customerAddMoneyInAccount(url,money);
     }
 
+
+    // Money Validation
+    @Override
+    public Double moneyValidation(Double money){
+        if(money<0){
+            System.out.println("Negatif para giremezsiniz.");
+            return Math.abs(money);
+        }else if(money==0){
+            System.out.println("Hiç mi paran yok :) ");
+        }
+        return money;
+    }
+
+
     // Hesaba para ekle
     @Override
     public void customerAddMoneyInAccount(String url, Double money){
-
-        Double accountMoney= accountMoney=customerAccountMoney("C:\\io\\bm\\user.txt");
-        //System.out.println("Hesabınızdaki para miktarı: "+accountMoney);
-        // FileWriter(url,false) false:içinde olan veriyi sil en son ekleneni ekle
+        //System.out.println(customerAccountMoney(url));
+        Double accountMoney=customerAccountMoney(url);
         try(BufferedWriter bWriter=new BufferedWriter(new FileWriter(url,false))){
-
             turkishNowDate();
-            // Para EKle
-            Double moneyAdd=accountMoney+money;
+
+            // MoneyValidation
+            // Para için validation: -(eksi giremezsin) 0
+            Double validationMoney=  moneyValidation(money);
+
+            // Para Topla
+            Double moneyAdd=accountMoney+validationMoney;
+            // Para Dosyaya ekle
             bWriter.write(String.valueOf(moneyAdd));
             bWriter.flush();
 
-            // Para için validation: -(eksi giremezsin) 0
-            System.out.println("Hesabınızdaki para: "+accountMoney+" Eklenen para: "+money+" Toplam Paranız: "+moneyAdd);
+            System.out.println("Hesabınızdaki para: "+accountMoney+" Eklenen para: "+validationMoney+" Toplam Paranız "+moneyAdd+"\n");
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -232,13 +247,13 @@ public class UserDao implements IUser,Serializable{
     @Override
     public Double customerAccountMoney(String url){
         String rows=null; // okunan satır
-        Double money=null;
+        Double money=0.0;
         try(BufferedReader bReader=new BufferedReader(new FileReader(url))){
             while((rows=bReader.readLine())!=null){
                 money= Double.valueOf(rows);
             }
-            turkishNowDate();
-            System.out.println("Hesabınızdaki para: "+money);
+            //turkishNowDate();
+            //System.out.println("Hesabınızdaki para: "+money);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -248,24 +263,199 @@ public class UserDao implements IUser,Serializable{
     // Hesaptan Para Çek
     @Override
     public void customerMinusMoneyInAccount(String url,Double money){
-        try{
+        //System.out.println(customerAccountMoney(url));
+        Scanner scannerMinus=new Scanner(System.in);
+        Double accountMoney=customerAccountMoney(url);
+        if(accountMoney<=0){
+            System.out.println("Hesabınızda para yoktur.");
+            System.out.println("Hesabınızda para eklemek ister misiniz ? E-H");
 
-        }catch (Exception e){
-            e.printStackTrace();
+            char chooise;
+            chooise= scannerMinus.nextLine().toUpperCase().charAt(0);
+            if(chooise=='E'){
+                customerAddMoneyInAccount("C:\\io\\bm\\user.txt", 200.0);
+            }else{
+                System.out.println("Para Yatırılmadı bundan dolayı para çekemezsiniz");
+            }
+        }else if(accountMoney<money){
+            System.out.println("Hesaptaki paranız: "+accountMoney+" bu paradan fazla para çekemezsiniz");
+            System.out.println("Hesabınızda para eklemek ister misiniz ? E-H");
+
+            char chooise;
+            chooise= scannerMinus.nextLine().toUpperCase().charAt(0);
+            if(chooise=='E'){
+                customerAddMoneyInAccount("C:\\io\\bm\\user.txt", 200.0);
+            }else{
+                System.out.println("Para Yatırılmadı bundan dolayı para çekemezsiniz");
+            }
+        } else{
+            try(BufferedWriter bWriter=new BufferedWriter(new FileWriter(url,false))){
+                turkishNowDate();
+
+                // MoneyValidation
+                // Para için validation: -(eksi giremezsin) 0
+                Double validationMoney=  moneyValidation(money);
+
+                // Para Çek
+                Double moneyAdd=accountMoney-validationMoney;
+                // Para Dosyaya ekle
+                bWriter.write(String.valueOf(moneyAdd));
+                bWriter.flush();
+
+                System.out.println("Hesabınızdaki para: "+accountMoney+" Çekilen para: "+validationMoney+" Kalan Toplam Paranız "+moneyAdd+"\n");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
     // Havale Yap
     @Override
-    public void customerMoneyDoTransfer(String url){}
+    public void customerMoneyDoTransfer(String url,Double money){
+        //System.out.println(customerAccountMoney(url));
+        Scanner scannerMinus=new Scanner(System.in);
+        Double accountMoney=customerAccountMoney(url);
+        if(accountMoney<=0){
+            System.out.println("Havale yapamıyorum Hesabınızda para yoktur.");
+            System.out.println("Hesabınızda para eklemek ister misiniz ? E-H");
+
+            char chooise;
+            chooise= scannerMinus.nextLine().toUpperCase().charAt(0);
+            if(chooise=='E'){
+                customerAddMoneyInAccount("C:\\io\\bm\\user.txt", 200.0);
+            }else{
+                System.out.println("Para Yatırılmadı bundan dolayı havale yapamazsınız");
+            }
+        }else if(accountMoney<money){
+            System.out.println("Hesaptaki paranız: "+accountMoney+" bu paradan fazla havale yapamazsınız");
+            System.out.println("Hesabınızda para eklemek ister misiniz ? E-H");
+
+            char chooise;
+            chooise= scannerMinus.nextLine().toUpperCase().charAt(0);
+            if(chooise=='E'){
+                customerAddMoneyInAccount("C:\\io\\bm\\user.txt", 200.0);
+            }else{
+                System.out.println("Para Yatırılmadı bundan dolayı para çekemezsiniz");
+            }
+        } else{
+            try(BufferedWriter bWriter=new BufferedWriter(new FileWriter(url,false))){
+                turkishNowDate();
+
+                // MoneyValidation
+                // Para için validation: -(eksi giremezsin) 0
+                Double validationMoney=  moneyValidation(money);
+
+                // Para Çek
+                Double moneyAdd=accountMoney-validationMoney;
+                // Para Dosyaya ekle
+                bWriter.write(String.valueOf(moneyAdd));
+                bWriter.flush();
+
+                System.out.println("Hesabınızdaki para: "+accountMoney+" Çekilen para: "+validationMoney+" Kalan Toplam Paranız "+moneyAdd+"\n");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
 
     // Eft Yap
     @Override
-    public void customerMoneyDoEft(String url){}
+    public void customerMoneyDoEft(String url,Double money){
+        //System.out.println(customerAccountMoney(url));
+        Scanner scannerMinus=new Scanner(System.in);
+        Double accountMoney=customerAccountMoney(url);
+        if(accountMoney<=0){
+            System.out.println("EFT yapamıyorum Hesabınızda para yoktur.");
+            System.out.println("Hesabınızda para eklemek ister misiniz ? E-H");
+
+            char chooise;
+            chooise= scannerMinus.nextLine().toUpperCase().charAt(0);
+            if(chooise=='E'){
+                customerAddMoneyInAccount("C:\\io\\bm\\user.txt", 200.0);
+            }else{
+                System.out.println("Para Yatırılmadı bundan dolayı eft yapamazsınız");
+            }
+        }else if(accountMoney<money){
+            System.out.println("Hesaptaki paranız: "+accountMoney+" bu paradan fazla eft yapamazsınız");
+            System.out.println("Hesabınızda para eklemek ister misiniz ? E-H");
+
+            char chooise;
+            chooise= scannerMinus.nextLine().toUpperCase().charAt(0);
+            if(chooise=='E'){
+                customerAddMoneyInAccount("C:\\io\\bm\\user.txt", 200.0);
+            }else{
+                System.out.println("Para Yatırılmadı bundan dolayı para çekemezsiniz");
+            }
+
+        } else{
+            try(BufferedWriter bWriter=new BufferedWriter(new FileWriter(url,false))){
+                turkishNowDate();
+
+                // MoneyValidation
+                // Para için validation: -(eksi giremezsin) 0
+                Double validationMoney=  moneyValidation(money);
+
+                // Para Çek
+                Double moneyAdd=accountMoney-validationMoney;
+                // Para Dosyaya ekle
+                bWriter.write(String.valueOf(moneyAdd));
+                bWriter.flush();
+
+                System.out.println("Hesabınızdaki para: "+accountMoney+" Çekilen para: "+validationMoney+" Kalan Toplam Paranız "+moneyAdd+"\n");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
 
     // Bağış yap
     @Override
-    public void customerMoneyDoDonate(String url){}
+    public void customerMoneyDoDonate(String url,Double money){
+        //System.out.println(customerAccountMoney(url));
+        Scanner scannerMinus=new Scanner(System.in);
+        Double accountMoney=customerAccountMoney(url);
+        if(accountMoney<=0){
+            System.out.println("Bağış yapamıyorum Hesabınızda para yoktur.");
+            System.out.println("Hesabınızda para eklemek ister misiniz ? E-H");
+
+            char chooise;
+            chooise= scannerMinus.nextLine().toUpperCase().charAt(0);
+            if(chooise=='E'){
+                customerAddMoneyInAccount("C:\\io\\bm\\user.txt", 200.0);
+            }else{
+                System.out.println("Para Yatırılmadı bundan dolayı Bağış yapamazsınız");
+            }
+        }else if(accountMoney<money){
+            System.out.println("Hesaptaki paranız: "+accountMoney+" bu paradan fazla Bağış yapamazsınız");
+            System.out.println("Hesabınızda para eklemek ister misiniz ? E-H");
+
+            char chooise;
+            chooise= scannerMinus.nextLine().toUpperCase().charAt(0);
+            if(chooise=='E'){
+                customerAddMoneyInAccount("C:\\io\\bm\\user.txt", 200.0);
+            }else{
+                System.out.println("Para Yatırılmadı bundan dolayı para çekemezsiniz");
+            }
+        } else{
+            try(BufferedWriter bWriter=new BufferedWriter(new FileWriter(url,false))){
+                turkishNowDate();
+
+                // MoneyValidation
+                // Para için validation: -(eksi giremezsin) 0
+                Double validationMoney=  moneyValidation(money);
+
+                // Para Çek
+                Double moneyAdd=accountMoney-validationMoney;
+                // Para Dosyaya ekle
+                bWriter.write(String.valueOf(moneyAdd));
+                bWriter.flush();
+
+                System.out.println("Hesabınızdaki para: "+accountMoney+" Çekilen para: "+validationMoney+" Kalan Toplam Paranız "+moneyAdd+"\n");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
 
     // Hesabı Sil
     @Override
@@ -303,18 +493,13 @@ public class UserDao implements IUser,Serializable{
             System.err.println(fileName+" Dosya Silinmedi");
         }
     }
-
-
-
     // inheritance | abstract
-
     ////////////////////////////////////////////////////////////////////////
-    // GETTER AND SETTER
-
     public static void main(String[] args) {
-        UserDao userDao=new UserDao();
-        userDao.customerAddMoneyInAccount("C:\\io\\bm\\user.txt", 500.0);
-        userDao.customerAddMoneyInAccount("C:\\io\\bm\\user.txt", 700.0);
+        UserDao userDao= new UserDao();
+        // userDao.customerAddMoneyInAccount("C:\\io\\bm\\user.txt", 500.0);
+        // userDao.customerAddMoneyInAccount("C:\\io\\bm\\user.txt", -600.0);
+        // userDao.customerAddMoneyInAccount("C:\\io\\bm\\user.txt", 0.0);
+        // userDao.customerMinusMoneyInAccount("C:\\io\\bm\\user.txt", 600.0);
     }
-
 } //end Class
