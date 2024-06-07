@@ -47,9 +47,6 @@ public class UserDao implements IUser,Serializable{
                 }else{
                     file.createNewFile();
                     System.out.println(url+ " dosyanız oluşturuldu.");
-
-                    // Promosyon Ekle
-                    //customerAddPromosyonMoneyInAccount("C:\\io\\bm\\user.txt", 1000.0);
                 }
             }else{
                 System.out.println(specialUrl+ "  dizini oluşturulmadı");
@@ -209,20 +206,17 @@ public class UserDao implements IUser,Serializable{
     // Hesaba para ekle
     @Override
     public void customerAddMoneyInAccount(String url, Double money){
-        System.out.println(customerAccountMoney(url));
-        Double accountMoney=customerAccountMoney(url);
         try(BufferedWriter bWriter=new BufferedWriter(new FileWriter(url,false))){
+            Double accountMoney=0.0;
+
             turkishNowDate();
-
-            // Para Ekle
-            Double add=accountMoney+money;
-
-            bWriter.write(String.valueOf(add));
+            accountMoney=customerAccountMoney("C:\\io\\bm\\user.txt");
+            bWriter.write(String.valueOf(money));
             bWriter.flush();
 
             // Para için validation: -(eksi giremezsin) 0
-            System.out.println("Hesabınızdaki para: "+accountMoney);
-            System.out.println("Eklenen para: "+money+" Toplam Paranız "+add);
+            System.out.println("Hesabınızdaki para: "+money);
+            System.out.println("Eklenen para: "+money+" Toplam Paranız ??? ");
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -232,7 +226,7 @@ public class UserDao implements IUser,Serializable{
     @Override
     public Double customerAccountMoney(String url){
         String rows=null; // okunan satır
-        Double money=0.0;
+        Double money=null;
         try(BufferedReader bReader=new BufferedReader(new FileReader(url))){
             while((rows=bReader.readLine())!=null){
                 money= Double.valueOf(rows);
@@ -308,11 +302,5 @@ public class UserDao implements IUser,Serializable{
 
     ////////////////////////////////////////////////////////////////////////
     // GETTER AND SETTER
-
-    public static void main(String[] args) {
-        UserDao userDao= new UserDao();
-        userDao.customerAddMoneyInAccount("C:\\io\\bm\\user.txt", 500.0);
-        userDao.customerAddMoneyInAccount("C:\\io\\bm\\user.txt", 700.0);
-    }
 
 } //end Class
