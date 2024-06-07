@@ -26,9 +26,6 @@ public interface IUser {
     // Hesaptan Para Çek
     void customerMinusMoneyInAccount(String url, Double money);
 
-    // Hesabı Sil
-    void customerDeleteUserAccount(String url);
-
     // Havale Yap
     void customerMoneyDoTransfer(String url);
 
@@ -37,4 +34,7 @@ public interface IUser {
 
     // Bağış yap
     void customerMoneyDoDonate(String url);
+
+    // Hesabı Sil
+    void customerDeleteUserAccount(String url);
 }

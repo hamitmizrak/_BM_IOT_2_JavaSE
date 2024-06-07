@@ -47,6 +47,9 @@ public class UserDao implements IUser,Serializable{
                 }else{
                     file.createNewFile();
                     System.out.println(url+ " dosyanız oluşturuldu.");
+
+                    // Promosyon Ekle
+                    customerAddPromosyonMoneyInAccount("C:\\io\\bm\\user.txt", 1000.0);
                 }
             }else{
                 System.out.println(specialUrl+ "  dizini oluşturulmadı");
@@ -206,17 +209,20 @@ public class UserDao implements IUser,Serializable{
     // Hesaba para ekle
     @Override
     public void customerAddMoneyInAccount(String url, Double money){
+
+        Double accountMoney= accountMoney=customerAccountMoney("C:\\io\\bm\\user.txt");
+        //System.out.println("Hesabınızdaki para miktarı: "+accountMoney);
+        // FileWriter(url,false) false:içinde olan veriyi sil en son ekleneni ekle
         try(BufferedWriter bWriter=new BufferedWriter(new FileWriter(url,false))){
-            Double accountMoney=0.0;
 
             turkishNowDate();
-            accountMoney=customerAccountMoney("C:\\io\\bm\\user.txt");
-            bWriter.write(String.valueOf(money));
+            // Para EKle
+            Double moneyAdd=accountMoney+money;
+            bWriter.write(String.valueOf(moneyAdd));
             bWriter.flush();
 
             // Para için validation: -(eksi giremezsin) 0
-            System.out.println("Hesabınızdaki para: "+money);
-            System.out.println("Eklenen para: "+money+" Toplam Paranız ??? ");
+            System.out.println("Hesabınızdaki para: "+accountMoney+" Eklenen para: "+money+" Toplam Paranız: "+moneyAdd);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -248,6 +254,18 @@ public class UserDao implements IUser,Serializable{
             e.printStackTrace();
         }
     }
+
+    // Havale Yap
+    @Override
+    public void customerMoneyDoTransfer(String url){}
+
+    // Eft Yap
+    @Override
+    public void customerMoneyDoEft(String url){}
+
+    // Bağış yap
+    @Override
+    public void customerMoneyDoDonate(String url){}
 
     // Hesabı Sil
     @Override
@@ -286,21 +304,17 @@ public class UserDao implements IUser,Serializable{
         }
     }
 
-    // Havale Yap
-    @Override
-    public void customerMoneyDoTransfer(String url){}
 
-    // Eft Yap
-    @Override
-    public void customerMoneyDoEft(String url){}
-
-    // Bağış yap
-    @Override
-    public void customerMoneyDoDonate(String url){}
 
     // inheritance | abstract
 
     ////////////////////////////////////////////////////////////////////////
     // GETTER AND SETTER
+
+    public static void main(String[] args) {
+        UserDao userDao=new UserDao();
+        userDao.customerAddMoneyInAccount("C:\\io\\bm\\user.txt", 500.0);
+        userDao.customerAddMoneyInAccount("C:\\io\\bm\\user.txt", 700.0);
+    }
 
 } //end Class
