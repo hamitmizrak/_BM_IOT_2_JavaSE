@@ -1,90 +1,96 @@
 package project.controller;
 
+import project.dao.IUser;
 import project.dao.UserDao;
-import project.dto.UserDto;
 
-public class UserController {
+import java.io.Serializable;
+
+
+public class UserController implements IUser, Serializable {
+
+    // Serializable
+    public static final Long serialVersionUID = 1L;
+
     // Injection
     private UserDao userDao = new UserDao();
 
-    // All Method Switch
-    public void allMethod(){
-        System.out.println("All Method");
+
+    // Tarih
+    @Override
+    public String turkishNowDate() {
+        return userDao.turkishNowDate();
     }
 
-    public void allProcess(){
-        UserDto userLogin = new UserDto();
-        userLogin.isloginValidation();
+    // Dosya Oluştur
+    @Override
+    public void fileCreateCustomize() {
+        userDao.fileCreateCustomize();
     }
 
-    // PSVM
-    public static void main(String[] args) {
-        // System.out.println(UUID.randomUUID().toString());
-        UserDao fd=new UserDao();
-        //System.out.println(fd);
-        //fd.logLocalTurkishDate();
-
-        // *****CREATE ***************
-        //fd.createFile();
-
-        // *****LIST ***************
-        /*
-        Scanner scannerList=new Scanner(System.in);
-        char disk;
-        String directory="",subDirectory="";
-        System.out.println("\nFile Listelemek için öncelikle disk yazınız. c veya d gibi");
-        disk=scannerList.nextLine().toUpperCase().charAt(0);
-        System.out.println("Dizin adı yazınız ?");
-        directory=scannerList.nextLine();
-        System.out.println("Alt dizin adı yazınız ?");
-        subDirectory=scannerList.nextLine();
-
-        StringBuilder stringBuilder=new StringBuilder();
-        stringBuilder
-                .append(disk).append(":\\").append(directory)
-                .append("\\").append(subDirectory);
-        String specialListUrl=stringBuilder.toString();
-        fd.fileList(specialListUrl);
-        */
-
-        // FILE INFORMATION
-        /*
-        Scanner scannerList=new Scanner(System.in);
-        char disk;
-        String directory="",subDirectory="";
-        System.out.println("\nFile bilgisi için öncelikle disk yazınız. c veya d gibi");
-        disk=scannerList.nextLine().toUpperCase().charAt(0);
-        System.out.println("Dizin adı yazınız ?");
-        directory=scannerList.nextLine();
-        System.out.println("Alt dizin adı yazınız ?");
-        subDirectory=scannerList.nextLine();
-
-        StringBuilder stringBuilder=new StringBuilder();
-        stringBuilder
-                .append(disk).append(":\\").append(directory)
-                .append("\\").append(subDirectory);
-        String specialFileInformationUrl=stringBuilder.toString();
-        fd.fileInformation(specialFileInformationUrl);
-        */
-
-        // FILE MONEY WRITER
-        /*
-        Scanner scannerWriter=new Scanner(System.in);
-        System.out.println("Hesaba para eklemek için para girişi yapınız");
-        Double money=scannerWriter.nextDouble();
-        fd.customerAddMoney("C:\\io\\bm\\user.txt", money);
-        */
-
-        // FILE MONEY READER
-        //fd.customerAccountMoney("C:\\io\\bm\\user.txt");
-
-        // FILE DELETE
-        fd.customerDeleteUserAccount("C:\\io\\bm");
-
-
-        //System.out.println(fd.customerAccountMoney("C:\\io\\bm\\user.txt"));
-        //Double accountMoney=fd.customerAccountMoney("C:\\io\\bm\\user.txt");
-        //System.out.println("sonuç:"+accountMoney);
-
+    // Dosya Listele
+    @Override
+    public void fileList(String url) {
+        userDao.fileList(url);
     }
-}
+
+    // Dosya Özellikleri
+    @Override
+    public void fileInformation(String url) {
+        userDao.fileInformation( url);
+    }
+
+    // Banka bir kereliğe mahsus 1000.0 TL promosyon eklesin
+    @Override
+    public void customerAddPromosyonMoneyInAccount(String url, Double money) {
+        userDao.customerAddPromosyonMoneyInAccount( url, money);
+    }
+
+    // Money Validation
+    @Override
+    public Double moneyValidation(Double money) {
+        return userDao.moneyValidation(money);
+    }
+
+    // Hesaba para ekle
+    @Override
+    public void customerAddMoneyInAccount(String url, Double money) {
+        userDao.customerAddMoneyInAccount( url, money);
+    }
+
+    // Hesapta para sorgula
+    @Override
+    public Double customerAccountMoney(String url) {
+        return userDao.customerAccountMoney(url);
+    }
+
+    // Hesaptan Para Çek
+    @Override
+    public void customerMinusMoneyInAccount(String url, Double money) {
+        userDao.customerMinusMoneyInAccount( url, money);
+    }
+
+    // Havale Yap
+    @Override
+    public void customerMoneyDoTransfer(String url, Double money) {
+        userDao.customerMoneyDoTransfer( url, money);
+    }
+
+    // EFT Yap
+    @Override
+    public void customerMoneyDoEft(String url, Double money) {
+        userDao.customerMoneyDoEft( url,  money);
+    }
+
+    // Bağış Yap
+    @Override
+    public void customerMoneyDoDonate(String url, Double money) {
+        userDao.customerMoneyDoDonate( url,  money);
+    }
+
+    // Hesabı Sil
+    @Override
+    public void customerDeleteUserAccount(String url) {
+        userDao.customerDeleteUserAccount( url);
+    }
+
+} //end UserController
