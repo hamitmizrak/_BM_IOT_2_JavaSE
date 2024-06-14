@@ -1,0 +1,76 @@
+Tabii, Java ile IoT uygulamaları geliştirmek için farklı senaryolar oluşturabiliriz. Bu örnekte, bir nem sensöründen veri okuyarak bu veriyi bir RESTful web servisine gönderen bir uygulama oluşturacağız. Bu uygulama, HTTP POST istekleri ile veriyi sunucuya iletecek.
+
+### Gerekli Kütüphaneler
+
+HTTP isteklerini yapmak için Apache HttpClient kütüphanesini kullanacağız. Maven kullanıyorsanız, `pom.xml` dosyanıza şu bağımlılıkları eklemeniz gerekecek:
+
+```xml
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpclient</artifactId>
+    <version>4.5.13</version>
+</dependency>
+```
+
+### IoT Uygulaması Örneği
+
+Aşağıda, sahte bir nem sensöründen verileri okuyup bu verileri bir RESTful web servisine gönderen basit bir Java programı bulunmaktadır.
+
+```java
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+
+import java.io.IOException;
+import java.util.Random;
+
+public class IoTExample {
+
+    public static void main(String[] args) {
+        String serverUrl = "http://example.com/iot/sensors/humidity"; // Sunucu URL'si
+
+        while (true) {
+            // Sahte nem verisi üretimi
+            Random rand = new Random();
+            int humidity = rand.nextInt(100); // 0 ile 100 arasında rastgele nem değeri
+
+            // HTTP POST isteği ile veri gönderme
+            try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+                HttpPost postRequest = new HttpPost(serverUrl);
+                String jsonPayload = "{\"humidity\":" + humidity + "}";
+                StringEntity entity = new StringEntity(jsonPayload);
+                postRequest.setEntity(entity);
+                postRequest.setHeader("Accept", "application/json");
+                postRequest.setHeader("Content-type", "application/json");
+
+                CloseableHttpResponse response = httpClient.execute(postRequest);
+                String responseString = EntityUtils.toString(response.getEntity());
+                System.out.println("Response: " + responseString);
+
+                response.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // 5 saniye bekleme
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+```
+
+### Açıklamalar
+
+1. **Sunucu URL'si**: Nem verisini göndermek için kullanılacak sunucu URL'sini `serverUrl` değişkenine tanımladık.
+2. **Nem Verisi Üretimi**: `Random` sınıfını kullanarak 0 ile 100 arasında rastgele bir nem değeri ürettik.
+3. **HTTP POST İsteği**: Üretilen nem verisini JSON formatında bir HTTP POST isteği ile sunucuya gönderdik.
+4. **Sonsuz Döngü**: Bu işlem sonsuz bir döngüde her 5 saniyede bir tekrarlanır.
+
+Bu örnek, temel bir IoT uygulaması yapısı sunmaktadır. Gerçek dünyada, nem verilerini gerçek bir sensörden okuyabilir ve daha güvenilir bir web sunucusu kullanabilirsiniz. Ek olarak, hata yönetimi ve güvenlik konularını da dikkate almanız gerekecektir.

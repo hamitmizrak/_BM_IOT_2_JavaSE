@@ -1,0 +1,76 @@
+Java ile bir IoT uygulaması geliştirmek, genellikle sensör verilerini toplamak, 
+analiz etmek ve bu verileri bir merkezi sunucuya veya bulut platformuna göndermek anlamına gelir. 
+Aşağıda, basit bir IoT uygulaması örneği için bir Java kodu bulabilirsiniz. 
+Bu örnek, bir sıcaklık sensöründen verileri okur ve bu verileri bir MQTT sunucusuna (Message Queuing Telemetry Transport) gönderir.
+
+### Gerekli Kütüphaneler
+
+Öncelikle, gerekli kütüphaneleri eklemeniz gerekecek. MQTT için Paho Java Client kütüphanesini kullanacağız. Maven kullanıyorsanız, `pom.xml` dosyanıza şu bağımlılığı ekleyin:
+
+```xml
+<dependency>
+    <groupId>org.eclipse.paho</groupId>
+    <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+    <version>1.2.5</version>
+</dependency>
+```
+
+### Sensör Verilerini Okuma ve Gönderme
+
+Aşağıda, sahte bir sıcaklık sensöründen verileri okuyup bu verileri bir MQTT broker'ına gönderen basit bir Java programı bulunmaktadır.
+
+```java
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+
+import java.util.Random;
+
+public class IoTExample {
+    public static void main(String[] args) {
+        String broker = "tcp://mqtt.eclipse.org:1883";
+        // Enum oluştur
+        String clientId = "JavaIoTClient";
+        MemoryPersistence persistence = new MemoryPersistence();
+
+        try {
+            MqttClient sampleClient = new MqttClient(broker, clientId, persistence);
+            sampleClient.connect();
+
+            while (true) {
+                // Sahte sıcaklık verisi üret
+                Random rand = new Random();
+                int temperature = rand.nextInt(100);
+
+                // MQTT mesajı oluştur
+                String content = "Temperature: " + temperature + "°C";
+                MqttMessage message = new MqttMessage(content.getBytes());
+                message.setQos(2);
+
+                // Mesajı yayınla
+                sampleClient.publish("iot/sensors/temperature", message);
+
+                System.out.println("Message published: " + content);
+
+                // 5 saniye bekle
+                Thread.sleep(5000);
+            }
+        } catch (MqttException | InterruptedException me) {
+            me.printStackTrace();
+        }
+    }
+}
+```
+
+### Açıklamalar
+
+1. **Bağlantı Bilgileri**: MQTT broker'a bağlanmak için `tcp://mqtt.eclipse.org:1883` adresini kullandık. Bu adres, 
+Eclipse'in herkese açık MQTT broker'ıdır.
+2. **Sıcaklık Verisi Üretimi**: `Random` sınıfını kullanarak 0 ile 100 arasında rastgele bir sıcaklık değeri ürettik.
+3. **MQTT Mesajı Yayınlama**: Üretilen sıcaklık verisini bir MQTT mesajı olarak "iot/sensors/temperature" konusuna yayınladık.
+4. **Sonsuz Döngü**: Bu işlem sonsuz bir döngüde her 5 saniyede bir tekrarlanır.
+
+Bu örnek, temel bir IoT uygulaması yapısı sunmaktadır. Gerçek dünyada, 
+sıcaklık verilerini gerçek bir sensörden okuyabilir ve daha güvenilir bir MQTT broker kullanabilirsiniz. 
+Ek olarak, hata yönetimi ve güvenlik konularını da dikkate almanız gerekecektir.

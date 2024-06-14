@@ -1,0 +1,90 @@
+Bir hava kalitesi sensöründen veri okuyup bu verileri MySQL veritabanına kaydeden bir Java uygulaması örneği oluşturalım. Bu uygulamada, JDBC kullanarak MySQL veritabanına bağlanacak ve verileri kaydedeceğiz.
+
+### Gerekli Kütüphaneler
+
+MySQL JDBC sürücüsünü kullanacağız. Maven kullanıyorsanız, `pom.xml` dosyanıza şu bağımlılığı eklemeniz gerekecek:
+
+```xml
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.23</version>
+</dependency>
+```
+
+### MySQL Veritabanı Yapılandırması
+
+Öncelikle, aşağıdaki SQL komutlarını kullanarak bir veritabanı ve tablo oluşturun:
+
+```sql
+CREATE SCHEMA `iot_db` DEFAULT CHARACTER SET utf8 ;
+
+use iot_db;
+
+CREATE TABLE air_quality_data (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    air_quality INT NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+SELECT * FROM iot.air_quality_data;
+```
+
+### Java Kodu
+
+Aşağıda, sahte bir hava kalitesi sensöründen verileri okuyup bu verileri MySQL veritabanına kaydeden basit bir Java programı bulunmaktadır:
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Random;
+
+public class IoTExample {
+
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/iot_db";
+    private static final String USER = "root";
+    private static final String PASS = "root";
+
+    public static void main(String[] args) {
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS)) {
+
+            while (true) {
+                // Sahte hava kalitesi verisi üretimi
+                Random rand = new Random();
+                int airQuality = rand.nextInt(500); // 0 ile 500 arasında rastgele hava kalitesi değeri
+
+                // Veritabanına veri ekleme
+                 String insertSQL = "INSERT INTO air_quality_data (air_quality) VALUES (?)";
+                try (PreparedStatement pstmt = conn.prepareStatement(insertSQL)) {
+                    pstmt.setInt(1, airQuality);
+                    pstmt.executeUpdate();
+                    System.out.println("Inserted air quality: " + airQuality);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                // 5 saniye bekleme
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Açıklamalar
+
+1. **Veritabanı Bağlantısı**: `DB_URL`, `USER` ve `PASS` değişkenleri ile veritabanı bağlantı bilgilerini tanımladık. Bu bilgileri kendi veritabanı ayarlarınıza göre düzenlemeniz gerekecektir.
+2. **Hava Kalitesi Verisi Üretimi**: `Random` sınıfını kullanarak 0 ile 500 arasında rastgele bir hava kalitesi değeri ürettik.
+3. **Veritabanına Veri Ekleme**: Üretilen hava kalitesi verisini `INSERT INTO` SQL komutu ile `air_quality_data` tablosuna ekledik.
+4. **Sonsuz Döngü**: Bu işlem sonsuz bir döngüde her 5 saniyede bir tekrarlanır.
+
+Bu örnek, temel bir IoT uygulaması yapısı sunmaktadır. Gerçek dünyada, hava kalitesi verilerini gerçek bir sensörden okuyabilir ve daha güvenilir bir veritabanı bağlantısı kullanabilirsiniz. Ek olarak, hata yönetimi ve güvenlik konularını da dikkate almanız gerekecektir.

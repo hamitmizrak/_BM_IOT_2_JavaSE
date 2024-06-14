@@ -1,0 +1,88 @@
+Elbette, Java ile başka bir IoT uygulaması örneği yapalım. Bu örnekte, bir ışık sensöründen veri okuyarak bu veriyi bir veritabanına kaydeden bir uygulama oluşturacağız. Bu uygulama, JDBC kullanarak MySQL veritabanına bağlanacak ve verileri kaydedecek.
+
+### Gerekli Kütüphaneler
+
+Veritabanı bağlantısı için MySQL JDBC sürücüsünü kullanacağız. Maven kullanıyorsanız, `pom.xml` dosyanıza şu bağımlılığı eklemeniz gerekecek:
+
+```xml
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.23</version>
+</dependency>
+```
+
+### IoT Uygulaması Örneği
+
+Aşağıda, sahte bir ışık sensöründen verileri okuyup bu verileri MySQL veritabanına kaydeden basit bir Java programı bulunmaktadır.
+
+#### MySQL Veritabanı Yapılandırması
+
+Öncelikle, aşağıdaki SQL komutlarını kullanarak bir veritabanı ve tablo oluşturun:
+
+```sql
+CREATE DATABASE iot_db;
+USE iot_db;
+
+CREATE TABLE light_sensor_data (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    light_level INT NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+#### Java Kodu
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Random;
+
+public class IoTExample {
+
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/iot_db";
+    private static final String USER = "root";
+    private static final String PASS = "password";
+
+    public static void main(String[] args) {
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS)) {
+
+            while (true) {
+                // Sahte ışık seviyesi verisi üretimi
+                Random rand = new Random();
+                int lightLevel = rand.nextInt(1000); // 0 ile 1000 arasında rastgele ışık seviyesi
+
+                // Veritabanına veri ekleme
+                String insertSQL = "INSERT INTO light_sensor_data (light_level) VALUES (?)";
+                try (PreparedStatement pstmt = conn.prepareStatement(insertSQL)) {
+                    pstmt.setInt(1, lightLevel);
+                    pstmt.executeUpdate();
+                    System.out.println("Inserted light level: " + lightLevel);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                // 5 saniye bekleme
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Açıklamalar
+
+1. **Veritabanı Bağlantısı**: `DB_URL`, `USER` ve `PASS` değişkenleri ile veritabanı bağlantı bilgilerini tanımladık.
+2. **Işık Seviyesi Verisi Üretimi**: `Random` sınıfını kullanarak 0 ile 1000 arasında rastgele bir ışık seviyesi değeri ürettik.
+3. **Veritabanına Veri Ekleme**: Üretilen ışık seviyesini `INSERT INTO` SQL komutu ile `light_sensor_data` tablosuna ekledik.
+4. **Sonsuz Döngü**: Bu işlem sonsuz bir döngüde her 5 saniyede bir tekrarlanır.
+
+Bu örnek, temel bir IoT uygulaması yapısı sunmaktadır. Gerçek dünyada, ışık seviyelerini gerçek bir sensörden okuyabilir ve daha güvenilir bir veritabanı bağlantısı kullanabilirsiniz. Ek olarak, hata yönetimi ve güvenlik konularını da dikkate almanız gerekecektir.
